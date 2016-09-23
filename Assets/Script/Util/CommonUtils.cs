@@ -33,6 +33,44 @@ public class CommonUtils
         }
     }
     /// <summary>
+    /// 设置子节点文本的字体颜色
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="child"></param>
+    /// <param name="c"></param>
+    public static void SetChildTextColor(RectTransform parent, string child, Color c)
+    {
+        var childNode = parent.FindChild(child);
+        if (childNode != null)
+        {
+            var textNode = childNode.GetComponent<Text>();
+            if (textNode)
+            {
+                textNode.color = c;
+            }
+        }
+    }
+    /// <summary>
+    /// 设置子节点文本的内容以及字体颜色
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="child"></param>
+    /// <param name="text"></param>
+    /// <param name="c"></param>
+    public static void SetChildTextAndColor(RectTransform parent, string child, string text, Color c)
+    {
+        var childNode = parent.FindChild(child);
+        if (childNode != null)
+        {
+            var textNode = childNode.GetComponent<Text>();
+            if (textNode)
+            {
+                textNode.text = text;
+                textNode.color = c;
+            }
+        }
+    }
+    /// <summary>
     /// 设置文本组件内容
     /// </summary>
     /// <param name="obj"></param>

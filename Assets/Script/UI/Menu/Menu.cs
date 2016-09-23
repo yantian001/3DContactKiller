@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BehaviorDesigner.Runtime;
 using System;
+using UnityEngine.EventSystems;
 
 public class Menu : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Menu : MonoBehaviour
     RectTransform parent;
 
     public Transform boosTransform = null;
+
+    public Color unArriveTextColor;
 
     bool isLoopTask = false;
 
@@ -206,6 +209,8 @@ public class Menu : MonoBehaviour
 
     }
 
+    int unArrivedCount = 0;
+
     void Display(Objective obj)
     {
         if (currentObjective == obj)
@@ -217,14 +222,41 @@ public class Menu : MonoBehaviour
         CommonUtils.SetChildText(parent, "Middle/Bg/RewardTitle/RewardText", string.Format("{0} ~ {1}", Mathf.CeilToInt(currentObjective.reward * 0.8f), Mathf.CeilToInt(currentObjective.reward * 1.5f)));
 
         int recommandCount = 0;
+        unArrivedCount = 0;
         DisplayRecommand("Middle/Bg/Recommand/PowerItem", currentObjective.powerRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(0, currentObjective.powerRequired), ref recommandCount);
         DisplayRecommand("Middle/Bg/Recommand/MaxZoom", currentObjective.maxZoomRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(1, currentObjective.maxZoomRequired), ref recommandCount);
         DisplayRecommand("Middle/Bg/Recommand/stability", currentObjective.stabilityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(2, currentObjective.stabilityRequired), ref recommandCount);
         DisplayRecommand("Middle/Bg/Recommand/capacity", currentObjective.capacityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(3, currentObjective.capacityRequired), ref recommandCount);
+        //添加点击事件,有不符合要求的武器属性时,弹出提示框
+        EventTrigger trigger = CommonUtils.GetChildComponent<EventTrigger>(parent, "Middle/Bg/Recommand");
+        if (trigger)
+        {
+            trigger.triggers.Clear();
+        }
+        if (unArrivedCount > 0)
+        {
+            //添加点击事件
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerDown;
+            entry.callback.AddListener(OnRecommandClick);
+            trigger.triggers.Add(entry);
+            recommandCount = 0;
+            //更新弹出显示页面
+            DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/PowerItem", currentObjective.powerRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(0, currentObjective.powerRequired), currentObjective.powerRequired, ref recommandCount);
+            DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/MaxZoom", currentObjective.maxZoomRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(1, currentObjective.maxZoomRequired), currentObjective.maxZoomRequired, ref recommandCount);
+            DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/Stability", currentObjective.stabilityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(2, currentObjective.stabilityRequired), currentObjective.stabilityRequired, ref recommandCount);
+            DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/capacity", currentObjective.capacityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(3, currentObjective.capacityRequired), currentObjective.capacityRequired, ref recommandCount);
+        }
     }
+
+
 
     public void DisplayRecommand(string name, bool show, bool isArrive, ref int displayCount)
     {
+        if (!isArrive)
+        {
+            unArrivedCount += 1;
+        }
         if (show)
         {
             CommonUtils.SetChildActive(parent, name, show);
@@ -241,4 +273,47 @@ public class Menu : MonoBehaviour
             CommonUtils.SetChildActive(parent, name, show);
         }
     }
+
+    /// <summary>
+    /// 显示武器属性弹出页面
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="show"></param>
+    /// <param name="isArrive"></param>
+    /// <param name="required"></param>
+    /// <param name="displayCount"></param>
+    public void DisplayRecommandPopup(string name, bool show, bool isArrive, float required, ref int displayCount)
+    {
+        if (show)
+        {
+            CommonUtils.SetChildActive(parent, name, show);
+            RectTransform powerRect = CommonUtils.GetChildComponent<RectTransform>(parent, name);
+            if (powerRect)
+            {
+                powerRect.anchoredPosition = new Vector2(displayCount * 50, 0);
+                CommonUtils.SetChildActive(powerRect, "WarningImage", !isArrive);
+                CommonUtils.SetChildTextAndColor(powerRect, "Text", required.ToString(), isArrive ? Color.white : unArriveTextColor);
+            }
+            displayCount += 1;
+        }
+        else
+        {
+            CommonUtils.SetChildActive(parent, name, show);
+        }
+    }
+
+    private void OnRecommandClick(BaseEventData arg0)
+    {
+        // throw new NotImplementedException();
+        //Debug.Log("Recommand Clicked");
+        CommonUtils.SetChildActive(parent, "WeaponUpgrade", true);
+    }
+    /// <summary>
+    /// 关闭弹出页面
+    /// </summary>
+    public void OnRecommandCancel()
+    {
+        CommonUtils.SetChildActive(parent, "WeaponUpgrade", false);
+    }
+
 }

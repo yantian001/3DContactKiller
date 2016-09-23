@@ -75,7 +75,8 @@ public class GameLogic : MonoBehaviour
     private void OnGameMore(LTEvent obj)
     {
         // throw new NotImplementedException();
-        ChartboostUtil.Instance.ShowMoreAppOnDefault();
+        //  ChartboostUtil.Instance.ShowMoreAppOnDefault();
+        FUGSDK.Ads.Instance.ShowMoreApp();
     }
 
     private void OnGameStart(LTEvent obj)
@@ -109,7 +110,7 @@ public class GameLogic : MonoBehaviour
 
     void OnGameMainMenu(LTEvent evt)
     {
-
+       // Events.STOPBGM
         GameValue.s_CurrentSceneName = s_MenuScene;
         bool isShowLoading = true;
         if (evt.data != null)
@@ -193,10 +194,10 @@ public class GameLogic : MonoBehaviour
 
     void OnGameQuit(LTEvent evt)
     {
-        if (ChartboostUtil.Instance.HasQuitInterstitial())
+        if (FUGSDK.Ads.Instance.HasIntersititial())
         {
-            ChartboostUtil.Instance.ShowQuitInterstitial();
-            LeanTween.addListener((int)Events.INTERSTITIALCLOSED, OnInterstitialClosed);
+            FUGSDK.Ads.Instance.ShowInterstitial(OnInterstitialClosed);
+          
         }
         //else if (GoogleAdsUtil.Instance.HasInterstital())
         //{
@@ -209,7 +210,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    public void OnInterstitialClosed(LTEvent evt)
+    public void OnInterstitialClosed()
     {
         Application.Quit();
     }
