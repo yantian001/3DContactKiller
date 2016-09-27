@@ -12,6 +12,19 @@ public class GunHanddle : MonoBehaviour
 
     bool isFirstFire = false;
 
+    #region 为了预测瞄准位置
+    /// <summary>
+    /// 当前武器的子弹
+    /// </summary>
+    public AS_Bullet currentBullet;
+    /// <summary>
+    /// 当前武器的rigidbody
+    /// </summary>
+    public Rigidbody currentBulletRgbody;
+
+    public Camera currentCamera;
+    #endregion
+
     void OnEnable()
     {
         if (Guns.Length < 1)
@@ -124,6 +137,8 @@ public class GunHanddle : MonoBehaviour
         {
             GunIndex = index;
             CurrentGun = Guns[GunIndex].gameObject.GetComponent<Gun>();
+            currentBullet = CurrentGun.Bullets.GetComponent<AS_Bullet>();
+            currentBulletRgbody = CurrentGun.Bullets.GetComponent<Rigidbody>();
             Hide(Guns[GunIndex].gameObject, true);
             Guns[GunIndex].SetActive(true);
         }
@@ -132,9 +147,9 @@ public class GunHanddle : MonoBehaviour
 
     public void SwitchGun()
     {
-       
+
         int currentId = WeaponManager.Instance.GetCurrentWeaponId();
-        if(currentId == -1)
+        if (currentId == -1)
         {
             SwitchGun(0);
 
@@ -142,7 +157,7 @@ public class GunHanddle : MonoBehaviour
         else
         {
             int select = -1;
-            for(int i= 0;i<Guns.Length;i++)
+            for (int i = 0; i < Guns.Length; i++)
             {
                 if (Guns[i].id == currentId)
                 {
@@ -175,5 +190,15 @@ public class GunHanddle : MonoBehaviour
     {
         if (CurrentGun)
             CurrentGun.FPSmotor.Holdbreath(noiseMult);
+    }
+    /// <summary>
+    /// 是否打开狙击镜
+    /// </summary>
+    /// <returns></returns>
+    public bool Zoomed()
+    {
+        if (CurrentGun && CurrentGun.Zooming)
+            return true;
+        return false;
     }
 }

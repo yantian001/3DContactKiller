@@ -158,6 +158,8 @@ public class GameManager : MonoBehaviour
        // Debug.Log("Game Statu : " + gameStatu.ToString());
     }
 
+
+
     public bool IsObjectiveTarget(Animal animal, HitPosition hitPos)
     {
         if (animal == null)

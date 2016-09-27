@@ -83,5 +83,15 @@ public class GameValue
             return MapLevelConfig[mapid-1];
     }
 
+
+    public static bool IsTarget(Transform t)
+    {
+        Animal a = t.GetComponent<Animal>();
+        if(a)
+        {
+            return a.Id == s_currentObjective.targetObjects.GetComponent<Animal>().Id;
+        }
+        return false;
+    }
   
 }

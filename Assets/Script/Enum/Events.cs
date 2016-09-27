@@ -127,4 +127,5 @@
     /// 主菜单加载完毕
     /// </summary>
     MENULOADED,
+    AimedEnemy,
 }
