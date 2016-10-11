@@ -18,6 +18,10 @@ public enum MissionType
     /// </summary>
     Target,
     /// <summary>
+    /// 时间任务
+    /// </summary>
+    Time,
+    /// <summary>
     /// 积分任务
     /// </summary>
     Score,

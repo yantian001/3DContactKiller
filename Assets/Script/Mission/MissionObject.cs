@@ -129,6 +129,9 @@ public class MissionObject
             case MissionType.AccidentKill:
                 newMission = new AccidentKillMission();
                 break;
+            case MissionType.Time:
+                newMission = new TimeMission();
+                break;
         }
         if (newMission != null)
             missions.Add(newMission);
