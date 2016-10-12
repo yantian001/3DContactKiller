@@ -76,4 +76,24 @@ public class TargetMission : IMission
         LeanTween.removeListener((int)Events.ENEMYDIE, OnEnemyDie);
     }
 
+    public override string GetDescription()
+    {
+        string str = string.Format("Kill {0} {1}", TartgetCount, animal.Name);
+        if (NeedHeadShot)
+        {
+            str += " with headshot";
+        }
+        return str;
+    }
+
+    public Texture2D GetAvatarTexture()
+    {
+        if (animal)
+        {
+
+
+            return animal.Avater;
+        }
+        return null;
+    }
 }

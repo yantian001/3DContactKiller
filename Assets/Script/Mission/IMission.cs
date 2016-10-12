@@ -93,4 +93,9 @@ public class IMission
         //if(_statu == MissionStatu.Running)
         return _statu == MissionStatu.Running;
     }
+
+    public virtual string GetDescription()
+    {
+        return "";
+    }
 }
