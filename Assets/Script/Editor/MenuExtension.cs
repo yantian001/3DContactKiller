@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System;
 
 public class MenuExtension : EditorWindow
 {
@@ -46,5 +47,42 @@ public class MenuExtension : EditorWindow
         {
             Debug.Log("Dont have Hit_body for copy !");
         }
+    }
+
+    [MenuItem("FUG/Tools/Colider/Delete")]
+    private static void DeleteColiders()
+    {
+        GameObject o = Selection.activeGameObject;
+        Collider[] cs = o.GetComponentsInChildren<Collider>();
+        foreach (Collider c in cs)
+        {
+            DestroyImmediate(c);
+        }
+        Selection.selectionChanged();
+    }
+    [MenuItem("FUG/Tools/Colider/Disable")]
+    private static void DisableColiders()
+    {
+        GameObject o = Selection.activeGameObject;
+        Collider[] cs = o.GetComponentsInChildren<Collider>();
+        foreach (Collider c in cs)
+        {
+            //DestroyImmediate(c);
+            c.enabled = false;
+        }
+        Selection.selectionChanged();
+    }
+
+    [MenuItem("FUG/Tools/Colider/Enable")]
+    private static void EnableColiders()
+    {
+        GameObject o = Selection.activeGameObject;
+        Collider[] cs = o.GetComponentsInChildren<Collider>();
+        foreach (Collider c in cs)
+        {
+            //DestroyImmediate(c);
+            c.enabled = true;
+        }
+        Selection.selectionChanged();
     }
 }

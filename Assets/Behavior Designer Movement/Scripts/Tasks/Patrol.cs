@@ -28,8 +28,10 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             // initially move towards the closest waypoint
             float distance = Mathf.Infinity;
             float localDistance;
-            for (int i = 0; i < waypoints.Value.Count; ++i) {
-                if ((localDistance = Vector3.Magnitude(transform.position - waypoints.Value[i].position)) < distance) {
+            for (int i = 0; i < waypoints.Value.Count; ++i)
+            {
+                if ((localDistance = Vector3.Magnitude(transform.position - waypoints.Value[i].position)) < distance)
+                {
                     distance = localDistance;
                     waypointIndex = i;
                 }
@@ -41,23 +43,30 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         // Patrol around the different waypoints specified in the waypoint array. Always return a task status of running. 
         public override TaskStatus OnUpdate()
         {
-            if (!navMeshAgent.pathPending) {
+            if (!navMeshAgent.pathPending)
+            {
                 var thisPosition = transform.position;
                 thisPosition.y = navMeshAgent.destination.y; // ignore y
-                if (Vector3.SqrMagnitude(thisPosition - navMeshAgent.destination) < arriveDistance.Value) {
-                    if (waypointReachedTime == -waypointPauseDuration.Value) {
+                if (Vector3.SqrMagnitude(thisPosition - navMeshAgent.destination) < arriveDistance.Value)
+                {
+                    if (waypointReachedTime == -waypointPauseDuration.Value)
+                    {
                         waypointReachedTime = Time.time;
                     }
                     // wait the required duration before switching waypoints.
-                    if (waypointReachedTime + waypointPauseDuration.Value <= Time.time) {
-                        if (randomPatrol.Value) {
+                    if (waypointReachedTime + waypointPauseDuration.Value <= Time.time)
+                    {
+                        if (randomPatrol.Value)
+                        {
                             waypointIndex = Random.Range(0, waypoints.Value.Count);
-                        } else {
+                        }
+                        else
+                        {
                             waypointIndex = (waypointIndex + 1) % waypoints.Value.Count;
                         }
                         navMeshAgent.destination = Target();
                         waypointReachedTime = -waypointPauseDuration.Value;
-                    } 
+                    }
                 }
             }
 
@@ -84,19 +93,25 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         // Draw a gizmo indicating a patrol 
         public override void OnDrawGizmos()
         {
+            Debug.Log("On Draw Gizmos");
 #if UNITY_EDITOR
-            if (waypoints == null) {
+            if (waypoints == null)
+            {
                 return;
             }
             var oldColor = UnityEditor.Handles.color;
             UnityEditor.Handles.color = Color.yellow;
-            for (int i = 0; i < waypoints.Value.Count; ++i) {
-                if (waypoints.Value[i] != null) {
+            for (int i = 0; i < waypoints.Value.Count; ++i)
+            {
+                if (waypoints.Value[i] != null)
+                {
                     UnityEditor.Handles.SphereCap(0, waypoints.Value[i].position, waypoints.Value[i].rotation, 1);
                 }
             }
             UnityEditor.Handles.color = oldColor;
 #endif
         }
+
+
     }
 }

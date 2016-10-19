@@ -101,6 +101,7 @@ public class DamageManager : MonoBehaviour
         hpSliderDisplayBeginTime = Time.fixedTime;
         if (hp <= 0)
         {
+            Dead(suffix);
             //behavior.SetVariableValue("IsDead", true);
             //// Vector3.Cross(transform.forward,velosity.normalized)
             ////if(Vector3.Dot(velosity.normalized,transform.forward) > 0)
@@ -195,7 +196,7 @@ public class DamageManager : MonoBehaviour
 
         if (isEnemy && !isDied)
         {
-            if (hp < maxHp && hpSliderDisplayBeginTime + 5 >= Time.fixedTime) 
+            if (hp < maxHp && hpSliderDisplayBeginTime + 5 >= Time.fixedTime)
             {
                 //默认NPC坐标点在脚底下，所以这里加上npcHeight它模型的高度即可
                 Vector3 worldPosition = new Vector3(transform.position.x, transform.position.y + hight, transform.position.z);
