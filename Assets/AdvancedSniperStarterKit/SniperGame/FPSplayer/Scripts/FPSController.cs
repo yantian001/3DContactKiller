@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterMotor))]
 [AddComponentMenu("Character/FPS Input Controller")]
@@ -27,6 +29,7 @@ public class FPSController : MonoBehaviour
     public float noiseX = 0.1f;
     public float noiseY = 0.1f;
     public bool Noise;
+    public float holdBreathDuration = 10f;
     private float rotationX = 0;
     private float rotationY = 0;
     private float rotationXtemp = 0;
@@ -228,7 +231,16 @@ public class FPSController : MonoBehaviour
 
     public void Holdbreath(float val)
     {
-        breathHolderValtarget = val;
+        // breathHolderValtarget = val;
+        breathHolderValtarget = 0;
+        breathHolderVal = 0;
+        // StartCoroutine(HoldbreathRoute());
+    }
+
+    public void RecoveryBreath()
+    {
+        breathHolderValtarget = 1;
+        breathHolderVal = 0f;
     }
 
     public void Stun(float val)

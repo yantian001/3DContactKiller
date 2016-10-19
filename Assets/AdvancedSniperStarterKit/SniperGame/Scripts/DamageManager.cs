@@ -26,7 +26,6 @@ public class DamageManager : MonoBehaviour
     public BehaviorTree behavior;
     int maxHp = 0;
     HitPosition hpos;
-    public int depth = 0;
 
     Animal animal;
 
@@ -102,20 +101,20 @@ public class DamageManager : MonoBehaviour
         hpSliderDisplayBeginTime = Time.fixedTime;
         if (hp <= 0)
         {
-            behavior.SetVariableValue("IsDead", true);
-            // Vector3.Cross(transform.forward,velosity.normalized)
-            //if(Vector3.Dot(velosity.normalized,transform.forward) > 0)
-            if (Vector3.Cross(transform.forward, velosity.normalized).y > 0)
-            {
-                //animation.CrossFade("Death-Right", 0.1f, PlayMode.StopAll);
-                behavior.SetVariableValue("deathAnimation", "Death-Right");
-            }
-            else
-            {
-                //animation.CrossFade("Death-Left", 0.1f, PlayMode.StopAll);
-                // behavior.SendEvent<object>("Dead", 2);
-                behavior.SetVariableValue("deathAnimation", "Death-Left");
-            }
+            //behavior.SetVariableValue("IsDead", true);
+            //// Vector3.Cross(transform.forward,velosity.normalized)
+            ////if(Vector3.Dot(velosity.normalized,transform.forward) > 0)
+            //if (Vector3.Cross(transform.forward, velosity.normalized).y > 0)
+            //{
+            //    //animation.CrossFade("Death-Right", 0.1f, PlayMode.StopAll);
+            //    behavior.SetVariableValue("deathAnimation", "Death-Right");
+            //}
+            //else
+            //{
+            //    //animation.CrossFade("Death-Left", 0.1f, PlayMode.StopAll);
+            //    // behavior.SendEvent<object>("Dead", 2);
+            //    behavior.SetVariableValue("deathAnimation", "Death-Left");
+            //}
         }
 
     }
@@ -143,7 +142,7 @@ public class DamageManager : MonoBehaviour
         }
         else
         {
-            LeanTween.rotateZ(transform.root.gameObject, 90, 0.5f);
+            //LeanTween.rotateZ(transform.root.gameObject, 90, 0.5f);
         }
     }
 

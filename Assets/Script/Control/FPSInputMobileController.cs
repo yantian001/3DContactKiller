@@ -16,6 +16,7 @@ public class FPSInputMobileController : MonoBehaviour
     public string aimButtom = "Aim";
     public string fireButtom = "Fire1";
     public string switchButton = "Switch";
+    public string holdButton = "Hold";
     public float touchSensMult = 0.05f;
 
     // Use this for initialization
@@ -58,6 +59,11 @@ public class FPSInputMobileController : MonoBehaviour
         if (CnInputManager.GetButtonDown(switchButton))
         {
             gunHanddle.SwitchGun();
+        }
+        
+        if(CnInputManager.GetButtonDown(holdButton))
+        {
+            gunHanddle.HoldBreath(0);
         }
     }
 }

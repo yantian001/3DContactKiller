@@ -108,33 +108,39 @@ public class MissionObject
     /// <param name="type"></param>
     public void AddMission(MissionType type)
     {
-        IMission newMission = null;
-        switch (type)
-        {
-            case MissionType.Score:
-                newMission = new ScoresMission();
-                break;
-            case MissionType.Target:
-                newMission = new TargetMission();
-                break;
-            case MissionType.Combo:
-                newMission = new ComboMission();
-                break;
-            case MissionType.Alarm:
-                newMission = new AlarmMission();
-                break;
-            case MissionType.AlarmKill:
-                newMission = new AlarmKillMission();
-                break;
-            case MissionType.AccidentKill:
-                newMission = new AccidentKillMission();
-                break;
-            case MissionType.Time:
-                newMission = new TimeMission();
-                break;
-        }
-        if (newMission != null)
-            missions.Add(newMission);
+        if (type == MissionType.None)
+            return;
+        IMission nm = new IMission();
+        nm._type = type;
+        missions.Add(nm);
+
+        //IMission newMission = null;
+        //switch (type)
+        //{
+        //    case MissionType.Score:
+        //        newMission = new ScoresMission();
+        //        break;
+        //    case MissionType.Target:
+        //        newMission = new TargetMission();
+        //        break;
+        //    case MissionType.Combo:
+        //        newMission = new ComboMission();
+        //        break;
+        //    case MissionType.Alarm:
+        //        newMission = new AlarmMission();
+        //        break;
+        //    case MissionType.AlarmKill:
+        //        newMission = new AlarmKillMission();
+        //        break;
+        //    case MissionType.AccidentKill:
+        //        newMission = new AccidentKillMission();
+        //        break;
+        //    case MissionType.Time:
+        //        newMission = new TimeMission();
+        //        break;
+        //}
+        //if (newMission != null)
+        //    missions.Add(newMission);
     }
 
     public void DeleteMission(int i)

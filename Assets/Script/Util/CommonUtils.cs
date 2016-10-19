@@ -166,6 +166,18 @@ public class CommonUtils
         }
     }
 
+    public static void SetToggleOn(RectTransform t, bool isOn)
+    {
+        if (t)
+        {
+            Toggle tg = t.GetComponent<Toggle>();
+            if (tg)
+            {
+                tg.isOn = isOn;
+            }
+        }
+    }
+
     public static void SetChildToggleInteractable(RectTransform parent, string child, bool interactable)
     {
         if (parent == null || string.IsNullOrEmpty(child))

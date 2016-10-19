@@ -4,6 +4,9 @@ using System;
 
 public class GunHanddle : MonoBehaviour
 {
+
+    public static GunHanddle Instance = null;
+
     public Camera FPScamera;
     public Gun[] Guns;
     public int GunIndex = -1;
@@ -41,7 +44,7 @@ public class GunHanddle : MonoBehaviour
                 Guns[i].positionTemp = Guns[i].transform.localPosition;
             }
         }
-        //SwitchGun();
+        SwitchGun();
 
     }
 
@@ -53,6 +56,7 @@ public class GunHanddle : MonoBehaviour
 
     public void Awake()
     {
+        Instance = this;
         LeanTween.addListener((int)Events.GAMEFINISH, OnGameFinish);
         LeanTween.addListener((int)Events.PREVIEWSTART, OnPreviewStart);
     }
@@ -63,6 +67,10 @@ public class GunHanddle : MonoBehaviour
         LeanTween.removeListener((int)Events.PREVIEWSTART, OnPreviewStart);
     }
 
+    public void OnDestroy()
+    {
+        Instance = null;
+    }
 
     void OnGameFinish(LTEvent evt)
     {
@@ -119,6 +127,13 @@ public class GunHanddle : MonoBehaviour
         if (CurrentGun)
             CurrentGun.ZoomDelta(delta);
     }
+
+    public void ZoomAdjust(float delta)
+    {
+        if (CurrentGun)
+            CurrentGun.ZoomDelta(delta);
+    }
+
     public void OffsetAdjust(Vector2 delta)
     {
         if (CurrentGun)
@@ -186,11 +201,20 @@ public class GunHanddle : MonoBehaviour
         }
     }
 
-    public void HoldBreath(int noiseMult)
+    public void HoldBreath(int noiseMult = 0)
     {
         if (CurrentGun)
             CurrentGun.FPSmotor.Holdbreath(noiseMult);
     }
+
+    public void RecoveryBreath()
+    {
+        if(CurrentGun)
+        {
+            CurrentGun.FPSmotor.RecoveryBreath();
+        }
+    }
+    
     /// <summary>
     /// ÊÇ·ñ´ò¿ª¾Ñ»÷¾µ
     /// </summary>

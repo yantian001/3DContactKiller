@@ -31,6 +31,22 @@ public class Gun : MonoBehaviour
     public float MouseSensitive = 1;
     public float MouseStability = 20.5f;
     public bool Zooming;
+    /// <summary>
+    /// 初始化的狙击FOV,
+    /// </summary>
+    public float ZoomFOV = 50f;
+    /// <summary>
+    /// 当前的FOV ,= zoomFOV - maxMult * sense * forPerMulti
+    /// </summary>
+    public float currentFOV = 50f;
+    /// <summary>
+    /// 最大的狙击倍数
+    /// </summary>
+    public float maxMulti = 4f;
+    /// <summary>
+    /// 狙击镜每增加一倍 ,fov减少的值
+    /// </summary>
+    public float fovPerMulti = 2f;
     public bool ZoomingBeforeReload;
     float Power = 0;
     public float MaxZoom = 6.0f;
@@ -62,6 +78,8 @@ public class Gun : MonoBehaviour
     public FPSController FPSmotor;
     [HideInInspector]
     public float CurrentZoom = 1f;
+
+
 
     void Start()
     {
@@ -382,6 +400,25 @@ public class Gun : MonoBehaviour
             }
         }
     }
+
+    public void ZoomDelta(float delta)
+    {
+        if (!Active)
+            return;
+        //Zooming = true;
+        delta = Mathf.Min(1, Mathf.Max(0, delta));
+        if (delta > 0)
+        {
+            Zooming = true;
+        }
+        else
+        {
+            Zooming = false;
+        }
+        currentFOV = Mathf.Max(0, ZoomFOV - maxMulti * delta * fovPerMulti);
+        Debug.Log("current FOV :" + currentFOV);
+    }
+
 
     public void Reload()
     {

@@ -242,137 +242,137 @@ public class MissionWindowEditor : EditorWindow
         switch (im._type)
         {
             case MissionType.Target:
-                TargetMission tm = im as TargetMission;
+                //TargetMission tm = im as TargetMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), "目标任务");
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
-                tm.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 50, tempy, 130, height), tm.Target, typeof(Animal), false);
+                im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 50, tempy, 130, height), im.Target, typeof(Animal), false);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "数量:");
-                tm.TartgetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 110, height), tm.TartgetCount);
+                im.TargetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 110, height), im.TargetCount);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 40, height), new GUIContent("爆头:", "是否需要爆头击杀"));
-                tm.NeedHeadShot = EditorGUI.Toggle(new Rect(tempx + 50, tempy, 30, height), tm.NeedHeadShot);
+                im.NeedHeadShot = EditorGUI.Toggle(new Rect(tempx + 50, tempy, 30, height), im.NeedHeadShot);
                 //绘制头像
                 EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                 GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
-                if (tm.Target && tm.Target.Avater)
+                if (im.Target && im.Target.Avater)
                 {
-                    GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), tm.Target.Avater, ScaleMode.ScaleToFit);
+                    GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), im.Target.Avater, ScaleMode.ScaleToFit);
                 }
                 break;
             case MissionType.Score:
-                ScoresMission sm = im as ScoresMission;
+               // ScoresMission sm = im as ScoresMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), "积分任务");
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
-                sm.TargetScores = EditorGUI.FloatField(new Rect(tempx + 50, tempy, 130, height), sm.TargetScores);
+                im.TargetScores = EditorGUI.FloatField(new Rect(tempx + 50, tempy, 130, height), im.TargetScores);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 40, height), new GUIContent("限时:", "是否需要在规定时间内达到分数"));
-                sm.IsTimeLimit = EditorGUI.Toggle(new Rect(tempx + 50, tempy, 30, height), sm.IsTimeLimit);
+                im.IsTimeLimit = EditorGUI.Toggle(new Rect(tempx + 50, tempy, 30, height), im.IsTimeLimit);
                 tempy += spaceY;
-                if (sm.IsTimeLimit)
+                if (im.IsTimeLimit)
                 {
                     GUI.Label(new Rect(tempx + 10, tempy, 40, height), "时间:");
-                    sm.LimitTime = EditorGUI.FloatField(new Rect(tempx + 50 + 10, tempy, 110, height), sm.LimitTime);
+                    im.LimitTime = EditorGUI.FloatField(new Rect(tempx + 50 + 10, tempy, 110, height), im.LimitTime);
                 }
                 break;
             case MissionType.Combo:
                 //开枪后多少秒内连续击杀目标
-                ComboMission cm = im as ComboMission;
+               // ComboMission cm = im as ComboMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), "连杀任务");
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), new GUIContent("时间:", "开枪后多少秒内"));
-                cm.LimitTime = EditorGUI.FloatField(new Rect(tempx + 50, tempy, 40, height), cm.LimitTime);
+                im.LimitTime = EditorGUI.FloatField(new Rect(tempx + 50, tempy, 40, height), im.LimitTime);
                 GUI.Label(new Rect(tempx + 100, tempy, 40, height), new GUIContent("s,击杀", "击杀敌人的人数"));
-                cm.TargetCount = EditorGUI.IntField(new Rect(tempx + 150, tempy, 40, height), cm.TargetCount);
+                im.TargetCount = EditorGUI.IntField(new Rect(tempx + 150, tempy, 40, height), im.TargetCount);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 60, height), "限定目标:");
-                cm.IsLimitTarget = EditorGUI.Toggle(new Rect(tempx + 70, tempy, 30, height), cm.IsLimitTarget);
+                im.IsLimitTarget = EditorGUI.Toggle(new Rect(tempx + 70, tempy, 30, height), im.IsLimitTarget);
                 tempy += spaceY;
-                if (cm.IsLimitTarget)
+                if (im.IsLimitTarget)
                 {
                     GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
 
-                    cm.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), cm.Target, typeof(Animal), false);
+                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), false);
                     //绘制头像
                     EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                     GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
-                    if (cm.Target && cm.Target.Avater)
+                    if (im.Target && im.Target.Avater)
                     {
-                        GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), cm.Target.Avater, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), im.Target.Avater, ScaleMode.ScaleToFit);
                     }
                 }
                 break;
             case MissionType.Alarm:
-                AlarmMission am = im as AlarmMission;
+                //AlarmMission am = im as AlarmMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), "警报触发");
                 tempy += spaceY;
                 tempx += 10;
                 GUI.TextArea(new Rect(tempx, tempy, 180, 100), "在不触发警报的情况下完成任务");
                 break;
             case MissionType.Time:
-                TimeMission tim = im as TimeMission;
+               // TimeMission tim = im as TimeMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), new GUIContent("限时任务", "在指定时间内完成所有任务"));
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "时间:");
-                tim.TimeCount = EditorGUI.FloatField(new Rect(tempx + 50, tempy, 80, height), tim.TimeCount);
+                im.LimitTime = EditorGUI.FloatField(new Rect(tempx + 50, tempy, 80, height), im.LimitTime);
                 GUI.Label(new Rect(tempx + 130, tempy, 40, height), "秒");
                 tempy += spaceY;
                 GUI.TextArea(new Rect(tempx, tempy, 180, 100), "在指定时间内完成所有任务!");
                 break;
             case MissionType.AlarmKill:
-                AlarmKillMission akm = im as AlarmKillMission;
+               // AlarmKillMission akm = im as AlarmKillMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), new GUIContent("警报击杀", "击杀指定数量处于警报状态下的敌人"));
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "数量:");
-                akm.TargetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 130, height), akm.TargetCount);
+                im.TargetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 130, height), im.TargetCount);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 60, height), "限定目标:");
-                akm.IsLimitTarget = EditorGUI.Toggle(new Rect(tempx + 70, tempy, 30, height), akm.IsLimitTarget);
+                im.IsLimitTarget = EditorGUI.Toggle(new Rect(tempx + 70, tempy, 30, height), im.IsLimitTarget);
                 tempy += spaceY;
-                if (akm.IsLimitTarget)
+                if (im.IsLimitTarget)
                 {
                     GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
 
-                    akm.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), akm.Target, typeof(Animal), false);
+                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), false);
                     //绘制头像
                     EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                     GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
-                    if (akm.Target && akm.Target.Avater)
+                    if (im.Target && im.Target.Avater)
                     {
-                        GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), akm.Target.Avater, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), im.Target.Avater, ScaleMode.ScaleToFit);
                     }
                 }
                 break;
 
             case MissionType.AccidentKill:
-                AccidentKillMission acm = im as AccidentKillMission;
+               // AccidentKillMission acm = im as AccidentKillMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), new GUIContent("意外击杀", "攻击爆炸体引发意外击杀"));
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "数量:");
-                acm.TargetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 130, height), acm.TargetCount);
+                im.TargetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 130, height), im.TargetCount);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 60, height), "限定目标:");
-                acm.IsLimitTarget = EditorGUI.Toggle(new Rect(tempx + 70, tempy, 30, height), acm.IsLimitTarget);
+                im.IsLimitTarget = EditorGUI.Toggle(new Rect(tempx + 70, tempy, 30, height), im.IsLimitTarget);
                 tempy += spaceY;
-                if (acm.IsLimitTarget)
+                if (im.IsLimitTarget)
                 {
                     GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
 
-                    acm.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), acm.Target, typeof(Animal), false);
+                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), false);
                     //绘制头像
                     EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                     GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
-                    if (acm.Target && acm.Target.Avater)
+                    if (im.Target && im.Target.Avater)
                     {
-                        GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), acm.Target.Avater, ScaleMode.ScaleToFit);
+                        GUI.DrawTexture(new Rect(tempx + 100, tempy, 100, 80), im.Target.Avater, ScaleMode.ScaleToFit);
                     }
                 }
                 break;

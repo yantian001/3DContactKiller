@@ -5,8 +5,46 @@ using UnityEditor;
 public class MenuExtension : EditorWindow
 {
     [MenuItem("FUG/Mission/Mission Editor")]
-	private static void OpenMissionEditor()
+    private static void OpenMissionEditor()
     {
         MissionWindowEditor.Init();
+    }
+    [MenuItem("FUG/Tools/Delete Joint")]
+    private static void DeleteAllJoint()
+    {
+        GameObject o = Selection.activeGameObject;
+        Joint[] joints = o.GetComponentsInChildren<Joint>();
+        foreach (Joint j in joints)
+        {
+            Rigidbody r = j.GetComponent<Rigidbody>();
+            DestroyImmediate(j);
+            DestroyImmediate(r);
+        }
+        Selection.selectionChanged();
+    }
+
+    [MenuItem("FUG/Tools/Add HitBody")]
+    private static void AddHitBody()
+    {
+        GameObject o = Selection.activeGameObject;
+        Hit_Body hb = o.GetComponentInChildren<Hit_Body>();
+        if (hb)
+        {
+            Collider[] cs = o.GetComponentsInChildren<Collider>();
+            if (cs.Length > 0)
+            {
+                UnityEditorInternal.ComponentUtility.CopyComponent(hb);
+                foreach (Collider c in cs)
+                {
+                    if (c.gameObject.GetComponent<Hit_Body>()) continue;
+                    UnityEditorInternal.ComponentUtility.PasteComponentAsNew(c.gameObject);
+                }
+
+            }
+        }
+        else
+        {
+            Debug.Log("Dont have Hit_body for copy !");
+        }
     }
 }

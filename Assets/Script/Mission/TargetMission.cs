@@ -78,7 +78,7 @@ public class TargetMission : IMission
 
     public override string GetDescription()
     {
-        string str = string.Format("Kill {0} {1}", TartgetCount, animal.Name);
+        string str = string.Format("Kill {0} {1}", TartgetCount, Target.Name);
         if (NeedHeadShot)
         {
             str += " with headshot";
