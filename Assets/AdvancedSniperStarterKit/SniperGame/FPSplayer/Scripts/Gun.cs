@@ -358,10 +358,12 @@ public class Gun : MonoBehaviour
         {
             if (ZoomFOVLists.Length > 0)
             {
-                MouseSensitiveZoom = ((MouseSensitive * 0.16f) / 10) * (fovTemp / CurrentZoom);
+                
+                //MouseSensitiveZoom = ((MouseSensitive * 0.16f) / 10) * (fovTemp / CurrentZoom);
+                MouseSensitiveZoom = ((MouseSensitive * 0.16f) / 10) * currentFOV;
                 //  NormalCamera.GetComponent<Camera>().fieldOfView += (ZoomFOVLists[IndexZoom] - NormalCamera.GetComponent<Camera>().fieldOfView) / 10;
-                NormalCamera.GetComponent<Camera>().fieldOfView += ((fovTemp / CurrentZoom) - NormalCamera.GetComponent<Camera>().fieldOfView) / 10;
-
+                //NormalCamera.GetComponent<Camera>().fieldOfView += ((fovTemp / CurrentZoom) - NormalCamera.GetComponent<Camera>().fieldOfView) / 10;
+                NormalCamera.GetComponent<Camera>().fieldOfView += (currentFOV - NormalCamera.GetComponent<Camera>().fieldOfView) / 10;
             }
         }
         else
