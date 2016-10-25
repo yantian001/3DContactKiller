@@ -105,7 +105,25 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             {
                 if (waypoints.Value[i] != null)
                 {
+                    
                     UnityEditor.Handles.SphereCap(0, waypoints.Value[i].position, waypoints.Value[i].rotation, 1);
+                }
+            }
+
+            for(int i=0;i<waypoints.Value.Count;i++)
+            {
+                if (waypoints.Value[i] == null)
+                    break;
+                if(i==waypoints.Value.Count -1)
+                {
+                    UnityEditor.Handles.DrawLine(waypoints.Value[i].position, waypoints.Value[0].position);
+                }
+                else
+                {
+                    if(waypoints.Value[i] != null && waypoints.Value[i+1] != null)
+                    {
+                        UnityEditor.Handles.DrawLine(waypoints.Value[i].position, waypoints.Value[i + 1].position);
+                    }
                 }
             }
             UnityEditor.Handles.color = oldColor;

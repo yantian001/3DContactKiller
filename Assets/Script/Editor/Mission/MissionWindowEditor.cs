@@ -247,7 +247,7 @@ public class MissionWindowEditor : EditorWindow
                 tempy += spaceY;
                 tempx += 10;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
-                im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 50, tempy, 130, height), im.Target, typeof(Animal), false);
+                im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 50, tempy, 130, height), im.Target, typeof(Animal), true);
                 tempy += spaceY;
                 GUI.Label(new Rect(tempx, tempy, 40, height), "数量:");
                 im.TargetCount = EditorGUI.IntField(new Rect(tempx + 50, tempy, 110, height), im.TargetCount);
@@ -297,7 +297,7 @@ public class MissionWindowEditor : EditorWindow
                 {
                     GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
 
-                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), false);
+                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), true);
                     //绘制头像
                     EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                     GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
@@ -340,7 +340,7 @@ public class MissionWindowEditor : EditorWindow
                 {
                     GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
 
-                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), false);
+                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), true);
                     //绘制头像
                     EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                     GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
@@ -366,7 +366,7 @@ public class MissionWindowEditor : EditorWindow
                 {
                     GUI.Label(new Rect(tempx, tempy, 40, height), "目标:");
 
-                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), false);
+                    im.Target = (Animal)EditorGUI.ObjectField(new Rect(tempx + 10, tempy + spaceY, 80, height), im.Target, typeof(Animal), true);
                     //绘制头像
                     EditorGUI.DrawRect(new Rect(tempx + 100, tempy, 100, 80), Color.gray);
                     GUI.Label(new Rect(tempx + 100 + 50 - 15, tempy + 40 - height / 2, 30, height), "头像");
