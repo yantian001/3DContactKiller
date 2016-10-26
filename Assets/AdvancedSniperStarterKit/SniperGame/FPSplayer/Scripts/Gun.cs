@@ -43,6 +43,8 @@ public class Gun : MonoBehaviour
     /// 最大的狙击倍数
     /// </summary>
     public float maxMulti = 4f;
+
+    public float minMulti = 2f;
     /// <summary>
     /// 狙击镜每增加一倍 ,fov减少的值
     /// </summary>
@@ -358,7 +360,7 @@ public class Gun : MonoBehaviour
         {
             if (ZoomFOVLists.Length > 0)
             {
-                
+
                 //MouseSensitiveZoom = ((MouseSensitive * 0.16f) / 10) * (fovTemp / CurrentZoom);
                 MouseSensitiveZoom = ((MouseSensitive * 0.16f) / 10) * currentFOV;
                 //  NormalCamera.GetComponent<Camera>().fieldOfView += (ZoomFOVLists[IndexZoom] - NormalCamera.GetComponent<Camera>().fieldOfView) / 10;
@@ -403,13 +405,15 @@ public class Gun : MonoBehaviour
         }
     }
 
+    private float currentDelta = 0;
     public void ZoomDelta(float delta)
     {
         if (!Active)
             return;
         //Zooming = true;
-        delta = Mathf.Min(1, Mathf.Max(0, delta));
-        if (delta > 0)
+        currentDelta += delta;
+        currentDelta = Mathf.Min(1, Mathf.Max(0, currentDelta));
+        if (currentDelta > 0)
         {
             Zooming = true;
         }
@@ -417,10 +421,18 @@ public class Gun : MonoBehaviour
         {
             Zooming = false;
         }
-        currentFOV = Mathf.Max(0, ZoomFOV - maxMulti * delta * fovPerMulti);
+        currentFOV = Mathf.Max(0, ZoomFOV - (maxMulti - minMulti) * currentDelta * fovPerMulti);
         Debug.Log("current FOV :" + currentFOV);
     }
 
+    /// <summary>
+    /// 获得当前放大倍数
+    /// </summary>
+    /// <returns></returns>
+    public float GetZoom()
+    {
+        return minMulti + (maxMulti - minMulti) * currentDelta;
+    }
 
     public void Reload()
     {

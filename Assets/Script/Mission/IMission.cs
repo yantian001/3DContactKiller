@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 
 public enum MissionStatu
 {
@@ -84,48 +84,95 @@ public class IMission
     public virtual void OnInit()
     {
         _statu = MissionStatu.Running;
+        currentCount = 0;
+        currentScores = 0;
         if (IsTimeLimit)
         {
             timeLeft = LimitTime;
         }
+        AddEventListener();
     }
+
+    public void AddEventListener()
+    {
+        if (_type == MissionType.Target)
+        {
+            LeanTween.addListener((int)Events.ENEMYDIE, OnEnemyDie);
+        }
+    }
+
+    public void RemoveEventListener()
+    {
+        if (_type == MissionType.Target)
+        {
+            LeanTween.removeListener((int)Events.ENEMYDIE, OnEnemyDie);
+        }
+    }
+
+    private void OnEnemyDie(LTEvent obj)
+    {
+        if (_statu == MissionStatu.Running)
+        {
+            var edi = obj.data as EnemyDeadInfo;
+            if (edi != null)
+            {
+                if (edi.animal.Id == Target.Id)
+                {
+                    if (NeedHeadShot)
+                    {
+                        if (edi.headShot)
+                        {
+                            currentCount += 1;
+                        }
+                    }
+                    else
+                        currentCount += 1;
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// 类似于每帧执行
     /// </summary>
     /// <param name="delta"></param>
     public virtual void OnUpdate(float delta)
     {
-        if (IsTimeLimit)
+        if (IsMissionRunning())
         {
-            timeLeft -= delta;
-        }
-        if (_type == MissionType.Target)
-        {
+            if (IsTimeLimit)
+            {
+                timeLeft -= delta;
+            }
+            if (_type == MissionType.Target)
+            {
+                if (currentCount >= TargetCount)
+                    _statu = MissionStatu.Completed;
+            }
+            else if (_type == MissionType.Alarm)
+            {
 
-        }
-        else if (_type == MissionType.Alarm)
-        {
+            }
+            else if (_type == MissionType.AlarmKill)
+            {
 
-        }
-        else if (_type == MissionType.AlarmKill)
-        {
+            }
+            else if (_type == MissionType.AccidentKill)
+            {
 
-        }
-        else if (_type == MissionType.AccidentKill)
-        {
+            }
+            else if (_type == MissionType.Combo)
+            {
+                ScoreUpdate();
+            }
+            else if (_type == MissionType.Score)
+            {
+                ScoreUpdate();
+            }
+            else if (_type == MissionType.Time)
+            {
 
-        }
-        else if (_type == MissionType.Combo)
-        {
-            ScoreUpdate();
-        }
-        else if (_type == MissionType.Score)
-        {
-            ScoreUpdate();
-        }
-        else if (_type == MissionType.Time)
-        {
-
+            }
         }
     }
 

@@ -26,17 +26,9 @@ public class ScoresManager : MonoBehaviour
         {
             currentScore += edi.score;
         }
-        UpdateScoreDisplay();
-        //throw new NotImplementedException();
     }
 
-    /// <summary>
-    /// 更新分数显示
-    /// </summary>
-    void UpdateScoreDisplay()
-    {
 
-    }
 
     public void OnDisable()
     {

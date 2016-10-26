@@ -78,6 +78,8 @@ namespace CnControls
 
         public virtual void OnDrag(PointerEventData eventData)
         {
+            if (Input.touchCount > 1)
+                return;
             // Some bitwise logic for constraining the touchpad along one of the axis
             // If the "Both" option was selected, non of these two checks will yield "true"
             if ((ControlMoveAxis & ControlMovementDirection.Horizontal) != 0)
@@ -94,6 +96,8 @@ namespace CnControls
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (Input.touchCount > 1)
+                return;
             _isCurrentlyTweaking = false;
             if (!PreserveInertia)
             {
@@ -104,6 +108,8 @@ namespace CnControls
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (Input.touchCount > 1)
+                return;
             _isCurrentlyTweaking = true;
             OnDrag(eventData);
         }

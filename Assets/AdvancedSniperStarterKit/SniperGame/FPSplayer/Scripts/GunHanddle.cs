@@ -225,4 +225,22 @@ public class GunHanddle : MonoBehaviour
             return true;
         return false;
     }
+
+    public static float GetZoom()
+    {
+        if(Instance.CurrentGun)
+        {
+            return Instance.CurrentGun.GetZoom();
+        }
+        return 2.0f;
+    }
+
+    public static int GetGunClip()
+    {
+        if(Instance.CurrentGun)
+        {
+            return Instance.CurrentGun.Clip;
+        }
+        return 0;
+    }
 }
