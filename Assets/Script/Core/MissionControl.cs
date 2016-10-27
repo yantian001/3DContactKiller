@@ -40,6 +40,7 @@ public class MissionControl : MonoBehaviour
     private void OnTimeOut()
     {
         //throw new NotImplementedException();
+        LeanTween.dispatchEvent((int)Events.TIMEUP);
     }
 
     // Update is called once per frame

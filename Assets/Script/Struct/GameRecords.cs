@@ -37,6 +37,8 @@ public class GameRecords
         }
     }
 
+    public float MissionReward { get; set; }
+
     public GameFinishType FinishType { get; set; }
 
     public int TimeLeft { get; set; }
