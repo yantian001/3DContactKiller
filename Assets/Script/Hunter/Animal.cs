@@ -14,7 +14,7 @@ public enum AnimalStatu
     /// <summary>
     /// 已经警觉
     /// </summary>
-    Warned 
+    Warned
 }
 
 public class Animal : MonoBehaviour
@@ -29,6 +29,6 @@ public class Animal : MonoBehaviour
 
     public void OnDestroy()
     {
-        LeanTween.dispatchEvent((int)Events.ENEMYAWAY);
+        LeanTween.dispatchEvent((int)Events.ENEMYAWAY, this);
     }
 }

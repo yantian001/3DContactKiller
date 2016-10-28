@@ -201,6 +201,27 @@ public class IMission
         }
     }
 
+
+    public void OnCheckFailure(Animal[] animals)
+    {
+        if (_statu == MissionStatu.Running && IsLimitTarget)
+        {
+            int count = 0;
+            for (int i = 0; i < animals.Length; i++)
+            {
+                if (animals[i] != null)
+                {
+                    if (animals[i].Id == Target.Id)
+                        count += 1;
+                }
+            }
+            if (count < TargetCount - currentCount)
+            {
+                _statu = MissionStatu.Failed;
+            }
+        }
+    }
+
     /// <summary>
     /// 销毁方法
     /// </summary>

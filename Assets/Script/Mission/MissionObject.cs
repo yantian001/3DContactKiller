@@ -85,6 +85,20 @@ public class MissionObject
                 _statu = MissionStatu.Completed;
         }
     }
+    /// <summary>
+    /// 检测任务是否失败
+    /// </summary>
+    /// <param name="animals"></param>
+    public void OnCheckFailure(Animal[] animals)
+    {
+        if (_statu == MissionStatu.Running)
+        {
+            for (int i = 0; i < missions.Count; i++)
+            {
+                missions[i].OnCheckFailure(animals);
+            }
+        }
+    }
 
     public void OnDestory()
     {
@@ -112,6 +126,10 @@ public class MissionObject
             return;
         IMission nm = new IMission();
         nm._type = type;
+        if (type == MissionType.Target)
+        {
+            nm.IsLimitTarget = true;
+        }
         missions.Add(nm);
 
         //IMission newMission = null;

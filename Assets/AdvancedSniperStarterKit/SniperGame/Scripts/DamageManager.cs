@@ -44,7 +44,7 @@ public class DamageManager : MonoBehaviour
         {
             animal = GetComponent<Animal>();
         }
-        maxHp = hp;
+        maxHp = hp = (int)MissionManager.CurrentMission.powerRequired;
     }
 
     void Update()
