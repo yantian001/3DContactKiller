@@ -26,4 +26,46 @@ public class Chapter
 #endif
     public List<MissionObject> CommonMission = new List<MissionObject>();
 
+    #region Menu UI Method
+    /// <summary>
+    /// 获取任务类型的总关卡数量
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public int GetTotalByType(LevelType type)
+    {
+        int total = 0;
+        switch (type)
+        {
+            case LevelType.MainTask:
+                total = CommonMission.Count;
+                break;
+            default:
+                break;
+        }
+        return total;
+    }
+
+    /// <summary>
+    /// 获取指定的任务
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public MissionObject GetMissionByIndex(int index, LevelType type)
+    {
+        MissionObject m = null;
+        switch (type)
+        {
+            case LevelType.MainTask:
+                if (index < CommonMission.Count)
+                    m = CommonMission[index];
+                break;
+            default:
+                break;
+        }
+        return m;
+    }
+
+    #endregion
 }

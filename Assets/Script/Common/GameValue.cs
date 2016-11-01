@@ -3,18 +3,28 @@ using System.Collections;
 
 public enum LevelType
 {
-	/// <summary>
-	/// The main task.
-	/// </summary>
-	MainTask,
-	/// <summary>
-	/// The loop task.
-	/// </summary>
-	LoopTask,
-	/// <summary>
-	/// The boss task.
-	/// </summary>
-	BossTask,
+
+    /// <summary>
+    /// The main task.
+    /// </summary>
+    MainTask,
+    /// <summary>
+    /// The loop task.
+    /// </summary>
+    LoopTask,
+    /// <summary>
+    /// The boss task.
+    /// </summary>
+    BossTask,
+    /// <summary>
+    /// 日常任务
+    /// </summary>
+    DailyTask,
+    /// <summary>
+    /// 普通任务
+    /// </summary>
+    CommonTask,
+    None,
 }
 
 
@@ -25,7 +35,7 @@ public class GameValue
 
     //public static bool s_IsRandomObjective = false;
 
-	public static LevelType s_LevelType = LevelType.MainTask;
+    public static LevelType s_LevelType = LevelType.MainTask;
 
     public static LevelData s_LeveData;
 
@@ -39,11 +49,11 @@ public class GameValue
 
     public static string GetMapSceneName()
     {
-        if(mapId == 1)
+        if (mapId == 1)
         {
             return "changjing-1";
         }
-        else if(mapId== 2)
+        else if (mapId == 2)
         {
             return "changjing-2";
 
@@ -80,18 +90,18 @@ public class GameValue
         if (mapid > MapLevelConfig.Length)
             return 0;
         else
-            return MapLevelConfig[mapid-1];
+            return MapLevelConfig[mapid - 1];
     }
 
 
     public static bool IsTarget(Transform t)
     {
         Animal a = t.GetComponent<Animal>();
-        if(a)
+        if (a)
         {
             return a.Id == s_currentObjective.targetObjects.GetComponent<Animal>().Id;
         }
         return false;
     }
-  
+
 }

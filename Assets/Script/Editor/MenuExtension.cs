@@ -85,4 +85,10 @@ public class MenuExtension : EditorWindow
         }
         Selection.selectionChanged();
     }
+
+    [MenuItem("FUG/Debug/print/Chapter Result")]
+    private static void PrintResult()
+    {
+        Debug.Log(PlayerPrefs.GetString("cptRst", ""));
+    }
 }
