@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 [System.Serializable]
 public class MissionObject
@@ -36,6 +37,14 @@ public class MissionObject
 
     [SerializeField]
     public List<IMission> missions = new List<IMission>();
+    /// <summary>
+    /// 任务描述
+    /// </summary>
+    public string description = "";
+    /// <summary>
+    /// 任务标题
+    /// </summary>
+    public string title;
     /// <summary>
     /// 任务是否已完成
     /// </summary>
@@ -164,6 +173,41 @@ public class MissionObject
     public void DeleteMission(int i)
     {
         missions.RemoveAt(i);
+    }
+
+    internal string GetDescription()
+    {
+        string str = description;
+        if (description != "")
+        {
+            str += "\n";
+        }
+        for (int i = 0; i < missions.Count; ++i)
+        {
+            string s = missions[i].GetDescription();
+            //str += s;
+            if (s != "")
+            {
+                str += " - " + s + "\n";
+            }
+        }
+        return str;
+        // return "Mission \r\n D text\r new parent";
+        //throw new NotImplementedException();
+    }
+
+    internal Texture2D GetPhotoTexture()
+    {
+        Texture2D t = null;
+        for (int i = 0; i < missions.Count; ++i)
+        {
+            t = missions[i].GetPhotoTexture();
+            if (t)
+            { break; }
+        }
+        return t;
+        //return null;
+        //throw new NotImplementedException();
     }
 #endif
     #endregion

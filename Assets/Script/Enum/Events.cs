@@ -128,4 +128,5 @@
     /// </summary>
     MENULOADED,
     AimedEnemy,
+    RECOMMENDCONTINUE,
 }

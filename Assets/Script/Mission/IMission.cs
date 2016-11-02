@@ -306,4 +306,18 @@ public class IMission
             string.Format("{0:00}:{1:00}", m, s);
         return str;
     }
+
+    /// <summary>
+    /// 获取头像
+    /// </summary>
+    /// <returns></returns>
+    public Texture2D GetPhotoTexture()
+    {
+        Texture2D t = null;
+        if (IsLimitTarget && Target)
+        {
+            t = Target.Avater;
+        }
+        return t;
+    }
 }

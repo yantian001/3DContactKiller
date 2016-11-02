@@ -143,7 +143,7 @@ public class GameLogic : MonoBehaviour
             Application.LoadLevel(s_LoadingScene);
         else
         {
-            Application.LoadLevel(GameValue.s_CurrentSceneName);
+            Application.LoadLevel(MissionManager.CurrentChapterSceneName);
         }
 
     }

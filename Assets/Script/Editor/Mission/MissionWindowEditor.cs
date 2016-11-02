@@ -172,7 +172,13 @@ public class MissionWindowEditor : EditorWindow
         tempY += spaceY;
         if (m.minimise)
         {
+
             tempX += 10;
+            GUI.Label(new Rect(tempX, tempY, 60, height), new GUIContent("标题:", "任务的标题"));
+            m.title = EditorGUI.TextField(new Rect(tempX + 100, tempY, width, height), m.title);
+            GUI.Label(new Rect(tempX + 300, tempY, 60, height), new GUIContent("描述:", "任务的描述"));
+            m.description = EditorGUI.TextArea(new Rect(tempX + 340, tempY, width*2, height *3), m.description);
+            tempY += spaceY;
             GUI.Label(new Rect(tempX, tempY, 60, height), "时间:");
             m.totalTime = EditorGUI.FloatField(new Rect(tempX + 100, tempY, width, height), m.totalTime);
             tempY += spaceY;
@@ -263,7 +269,7 @@ public class MissionWindowEditor : EditorWindow
                 }
                 break;
             case MissionType.Score:
-               // ScoresMission sm = im as ScoresMission;
+                // ScoresMission sm = im as ScoresMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), "积分任务");
                 tempy += spaceY;
                 tempx += 10;
@@ -281,7 +287,7 @@ public class MissionWindowEditor : EditorWindow
                 break;
             case MissionType.Combo:
                 //开枪后多少秒内连续击杀目标
-               // ComboMission cm = im as ComboMission;
+                // ComboMission cm = im as ComboMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), "连杀任务");
                 tempy += spaceY;
                 tempx += 10;
@@ -315,7 +321,7 @@ public class MissionWindowEditor : EditorWindow
                 GUI.TextArea(new Rect(tempx, tempy, 180, 100), "在不触发警报的情况下完成任务");
                 break;
             case MissionType.Time:
-               // TimeMission tim = im as TimeMission;
+                // TimeMission tim = im as TimeMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), new GUIContent("限时任务", "在指定时间内完成所有任务"));
                 tempy += spaceY;
                 tempx += 10;
@@ -326,7 +332,7 @@ public class MissionWindowEditor : EditorWindow
                 GUI.TextArea(new Rect(tempx, tempy, 180, 100), "在指定时间内完成所有任务!");
                 break;
             case MissionType.AlarmKill:
-               // AlarmKillMission akm = im as AlarmKillMission;
+                // AlarmKillMission akm = im as AlarmKillMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), new GUIContent("警报击杀", "击杀指定数量处于警报状态下的敌人"));
                 tempy += spaceY;
                 tempx += 10;
@@ -352,7 +358,7 @@ public class MissionWindowEditor : EditorWindow
                 break;
 
             case MissionType.AccidentKill:
-               // AccidentKillMission acm = im as AccidentKillMission;
+                // AccidentKillMission acm = im as AccidentKillMission;
                 GUI.Label(new Rect(tempx, tempy, 80, height), new GUIContent("意外击杀", "攻击爆炸体引发意外击杀"));
                 tempy += spaceY;
                 tempx += 10;

@@ -2,10 +2,11 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 public class MenuController : MonoBehaviour
 {
-
+    #region Public Variable
     public MenuButton mbPrimary;
     public MenuButton mbCommon;
     public MenuButton mbDaily;
@@ -13,25 +14,43 @@ public class MenuController : MonoBehaviour
     public Text txtLevelIndex;
     public Button btnNextLevel;
     public Button btnPreLevel;
-
+    public Text txtRewards;
+    public Text txtDescription;
+    public RawImage imgPhoto;
     public Button btnNextChapter;
     public Button btnPreChapter;
-
     public Text txtChapterName;
+    public Color unArriveTextColor;
+    #endregion
 
-    public Text txtRewards;
-
-
+    #region Private Variable
     private int _selectChapter = -1;
-
     private Chapter _currentChapter = null;
     private ChapterResult _currentChapterResult = null;
-
     private LevelType _levelType = LevelType.None;
     private int _currentLevel;
     private MissionObject _currentMission;
-
     private RectTransform parent;
+    private int unArrivedCount;
+
+
+    #endregion
+
+    #region Monobehavior Method
+
+    public void OnEnable()
+    {
+        LeanTween.addListener((int)Events.RECOMMENDCONTINUE, OnRecommandCotinue);
+        LeanTween.addListener((int)Events.PLAYCLICKED, OnPlayClicked);
+    }
+
+    public void OnDisable()
+    {
+        LeanTween.removeListener((int)Events.PLAYCLICKED, OnPlayClicked);
+        LeanTween.removeListener((int)Events.RECOMMENDCONTINUE, OnRecommandCotinue);
+    }
+
+
 
     // Use this for initialization
     void Start()
@@ -55,15 +74,54 @@ public class MenuController : MonoBehaviour
             mbBoss.OnClick.AddListener(OnMenuButtonClicked);
         }
         DisplayChapter(lstChapter);
-        
+
         btnNextChapter.onClick.AddListener(OnNextChapterClicked);
         btnPreChapter.onClick.AddListener(OnPreChapterClicked);
         btnNextLevel.onClick.AddListener(OnNextLevelClicked);
         btnPreLevel.onClick.AddListener(OnPreLevelClicked);
     }
 
+    #endregion
+
+    #region Play Game Logic
 
 
+    private void OnPlayClicked(LTEvent obj)
+    {
+        //throw new NotImplementedException();
+        if (unArrivedCount > 0)
+        {
+            OnRecommandClick(null);
+        }
+        else
+        {
+            GameStart();
+        }
+    }
+
+    public void GameStart()
+    {
+        if (_currentChapter == null || _currentMission == null || _currentLevel < 0)
+            return;
+        MissionManager.Instance.LastPlayedChapter = _selectChapter;
+        MissionManager.Instance.LastPlayedLevelType = _levelType;
+        MissionManager.CurrentMission = _currentMission;
+        MissionManager.CurrentChapter = _selectChapter;
+        MissionManager.CurrentLevel = _currentLevel;
+        MissionManager.CurrentLevelType = _levelType;
+        MissionManager.CurrentChapterSceneName = _currentChapter.SceneName;
+        //GameValue.s_currentObjective = currentObjective;
+        //GameValue.mapId = currentScene + 1;
+        //GameValue.s_CurrentSceneName = ld.sceneName;
+        ////GameValue.s_IsRandomObjective = isLoopTask;
+        //GameValue.s_LeveData = ld;
+        LeanTween.dispatchEvent((int)Events.GAMESTART);
+    }
+
+
+    #endregion
+
+    #region Display Mission Info.
     private void DisplayChapter(int select)
     {
         //throw new NotImplementedException();
@@ -161,29 +219,80 @@ public class MenuController : MonoBehaviour
 
     private void DisplayMission(MissionObject m)
     {
-        if(m != null)
+        if (m != null)
         {
             txtRewards.text = m.reward.ToString();
-        }
+            txtDescription.text = m.GetDescription();
+            Texture2D txture2d = m.GetPhotoTexture();
+            if (txture2d)
+            {
+                txtDescription.rectTransform.sizeDelta = new Vector2(165, txtDescription.rectTransform.sizeDelta.y);
+                imgPhoto.texture = txture2d;
+                imgPhoto.transform.parent.gameObject.SetActive(true);
+            }
+            else
+            {
+                txtDescription.rectTransform.sizeDelta = new Vector2(270, txtDescription.rectTransform.sizeDelta.y);
+                imgPhoto.transform.parent.gameObject.SetActive(false);
+            }
 
-        int recommandCount = 0;
-        DisplayRecommand("Panel/Mission/Recommand/PowerItem", m.powerRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(0, m.powerRequired), ref recommandCount);
-        DisplayRecommand("Panel/Mission/Recommand/MaxZoom", m.maxZoomRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(1, m.maxZoomRequired), ref recommandCount);
-        DisplayRecommand("Panel/Mission/Recommand/stability", m.stabilityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(2, m.stabilityRequired), ref recommandCount);
-        DisplayRecommand("Panel/Mission/Recommand/capacity", m.capacityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(3, m.capacityRequired), ref recommandCount);
-        //throw new NotImplementedException();
+            int recommandCount = 0;
+            DisplayRecommand("Panel/Mission/Recommand/PowerItem", m.powerRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(0, m.powerRequired), ref recommandCount);
+            DisplayRecommand("Panel/Mission/Recommand/MaxZoom", m.maxZoomRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(1, m.maxZoomRequired), ref recommandCount);
+            DisplayRecommand("Panel/Mission/Recommand/stability", m.stabilityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(2, m.stabilityRequired), ref recommandCount);
+            DisplayRecommand("Panel/Mission/Recommand/capacity", m.capacityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(3, m.capacityRequired), ref recommandCount);
+            //throw new NotImplementedException();
+
+            EventTrigger trigger = CommonUtils.GetChildComponent<EventTrigger>(parent, "Panel/Mission/Recommand");
+            if (trigger)
+            {
+                trigger.triggers.Clear();
+            }
+            if (unArrivedCount > 0)
+            {
+                //添加点击事件
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerDown;
+                entry.callback.AddListener(OnRecommandClick);
+                trigger.triggers.Add(entry);
+                recommandCount = 0;
+                //更新弹出显示页面
+                DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/PowerItem", m.powerRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(0, m.powerRequired), m.powerRequired, ref recommandCount);
+                DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/MaxZoom", m.maxZoomRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(1, m.maxZoomRequired), m.maxZoomRequired, ref recommandCount);
+                DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/Stability", m.stabilityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(2, m.stabilityRequired), m.stabilityRequired, ref recommandCount);
+                DisplayRecommandPopup("WeaponUpgrade/Background/Recommand/capacity", m.capacityRequired != -1, WeaponManager.Instance.IsWeaponMeetReq(3, m.capacityRequired), m.capacityRequired, ref recommandCount);
+            }
+        }
+    }
+    #endregion
+
+    #region Weapon Recommend
+    private void OnRecommandClick(BaseEventData arg0)
+    {
+        CommonUtils.SetChildActive(parent, "WeaponUpgrade", true);
     }
 
+    /// <summary>
+    /// 关闭弹出页面
+    /// </summary>
+    public void OnRecommandCancel()
+    {
+        CommonUtils.SetChildActive(parent, "WeaponUpgrade", false);
+    }
 
     public void DisplayRecommand(string name, bool show, bool isArrive, ref int displayCount)
     {
+        if (!isArrive)
+        {
+            unArrivedCount += 1;
+        }
         if (show)
         {
             CommonUtils.SetChildActive(parent, name, show);
             RectTransform powerRect = CommonUtils.GetChildComponent<RectTransform>(parent, name);
             if (powerRect)
             {
-                powerRect.anchoredPosition = new Vector2(displayCount * 40, 0);
+                powerRect.anchoredPosition = new Vector2(displayCount * 65, 0);
                 CommonUtils.SetChildActive(powerRect, "WarningImage", !isArrive);
             }
             displayCount += 1;
@@ -194,6 +303,41 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 显示武器属性弹出页面
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="show"></param>
+    /// <param name="isArrive"></param>
+    /// <param name="required"></param>
+    /// <param name="displayCount"></param>
+    public void DisplayRecommandPopup(string name, bool show, bool isArrive, float required, ref int displayCount)
+    {
+        if (show)
+        {
+            CommonUtils.SetChildActive(parent, name, show);
+            RectTransform powerRect = CommonUtils.GetChildComponent<RectTransform>(parent, name);
+            if (powerRect)
+            {
+                powerRect.anchoredPosition = new Vector2(displayCount * 70, 0);
+                CommonUtils.SetChildActive(powerRect, "WarningImage", !isArrive);
+                CommonUtils.SetChildTextAndColor(powerRect, "Text", required.ToString(), isArrive ? Color.white : unArriveTextColor);
+            }
+            displayCount += 1;
+        }
+        else
+        {
+            CommonUtils.SetChildActive(parent, name, show);
+        }
+    }
+
+    private void OnRecommandCotinue(LTEvent obj)
+    {
+        //   throw new NotImplementedException();
+        GameStart();
+    }
+
+    #endregion
 
     #region Button Click Event
 

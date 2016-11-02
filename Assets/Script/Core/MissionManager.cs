@@ -30,6 +30,10 @@ public class MissionManager : MonoBehaviour
     }
 
     public static MissionObject CurrentMission;
+    public static int CurrentChapter = -1;
+    public static int CurrentLevel = -1;
+    public static LevelType CurrentLevelType = LevelType.None;
+    public static string CurrentChapterSceneName = "";
 
     private int _lastPlayedChapter = -1;
     public int LastPlayedChapter
