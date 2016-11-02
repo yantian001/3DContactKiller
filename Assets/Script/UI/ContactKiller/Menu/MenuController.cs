@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class MenuController : MonoBehaviour
 {
     #region Public Variable
+    public RawImage BackGround;
     public MenuButton mbPrimary;
     public MenuButton mbCommon;
     public MenuButton mbDaily;
@@ -20,6 +21,11 @@ public class MenuController : MonoBehaviour
     public Button btnNextChapter;
     public Button btnPreChapter;
     public Text txtChapterName;
+
+    public RectTransform MissionPanel;
+    public RectTransform LockedPanle;
+    public RawImage Thumb;
+
     public Color unArriveTextColor;
     #endregion
 
@@ -139,9 +145,10 @@ public class MenuController : MonoBehaviour
         _currentChapter = MissionManager.GetChapterByIndex(_selectChapter);
         _currentChapterResult = MissionManager.GetResultByIndex(_selectChapter);
         txtChapterName.text = _currentChapter.Name;
-
+        BackGround.texture = _currentChapter.BgTexture;
         if (_currentChapterResult.unlocked)
         {
+            ChangeDisplay(false);
             mbPrimary.Interactable = true;
             mbCommon.Interactable = _currentChapterResult.commonUnlocked;
             mbDaily.Interactable = _currentChapterResult.dailyUnlocked;
@@ -155,11 +162,22 @@ public class MenuController : MonoBehaviour
         else
         {
             //显示锁死的界面
-
+            ChangeDisplay(true);
+            Thumb.texture = _currentChapter.ThumbTexture;
             print("Chapter Locked");
         }
 
 
+    }
+
+    void ChangeDisplay(bool locked)
+    {
+        MissionPanel.gameObject.SetActive(!locked);
+        LockedPanle.gameObject.SetActive(locked);
+        mbPrimary.gameObject.SetActive(!locked);
+        mbCommon.gameObject.SetActive(!locked);
+        mbDaily.gameObject.SetActive(!locked);
+        mbBoss.gameObject.SetActive(!locked);
     }
 
     void ChangeLevelType(LevelType type)

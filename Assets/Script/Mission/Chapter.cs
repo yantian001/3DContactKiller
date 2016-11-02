@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -8,6 +9,8 @@ public class Chapter
     public int Id = 0;
     public string Name = "";
     public string SceneName = "";
+    public Texture2D BgTexture;
+    public Texture2D ThumbTexture;
 #if UNITY_EDITOR
     private SceneAsset _scene;
     public SceneAsset Scene
@@ -25,6 +28,7 @@ public class Chapter
     }
 #endif
     public List<MissionObject> CommonMission = new List<MissionObject>();
+    
 
     #region Menu UI Method
     /// <summary>

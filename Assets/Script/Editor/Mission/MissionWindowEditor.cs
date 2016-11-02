@@ -52,8 +52,17 @@ public class MissionWindowEditor : EditorWindow
         EditorGUI.LabelField(new Rect(startX + 295, startY, width, height), cont);
         //SceneAsset sa;
         chapterList[selectId].Scene = (SceneAsset)EditorGUI.ObjectField(new Rect(startX + 380, startY, width, height), chapterList[selectId].Scene, typeof(SceneAsset), false);
-
+        EditorGUI.LabelField(new Rect(startX + 560, startY, width, height), chapterList[selectId].SceneName);
         //绘制普通任务
+        startY += spaceY + 10;
+        cont = new GUIContent("背景图：", "Menu上显示的背景图");
+        EditorGUI.LabelField(new Rect(startX, startY, width, height), cont);
+        chapterList[selectId].BgTexture = (Texture2D)EditorGUI.ObjectField(new Rect(startX + 90, startY, width, height), chapterList[selectId].BgTexture, typeof(Texture2D),false);
+
+        cont = new GUIContent("缩略图：", "Menu上未解锁时显示的缩略图");
+        EditorGUI.LabelField(new Rect(startX+295, startY, width, height), cont);
+        chapterList[selectId].ThumbTexture = (Texture2D)EditorGUI.ObjectField(new Rect(startX + 380, startY, width, height), chapterList[selectId].ThumbTexture, typeof(Texture2D), false);
+
         startY += spaceY + 10;
         v2 = DrawCommonMission(startX, startY, chapterList[selectId].CommonMission);
 

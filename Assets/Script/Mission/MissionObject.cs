@@ -116,7 +116,40 @@ public class MissionObject
             missions[i].OnDestory();
         }
     }
+    public string GetDescription()
+    {
+        string str = description;
+        if (description != "")
+        {
+            str += "\n";
+        }
+        for (int i = 0; i < missions.Count; ++i)
+        {
+            string s = missions[i].GetDescription();
+            //str += s;
+            if (s != "")
+            {
+                str += " - " + s + "\n";
+            }
+        }
+        return str;
+        // return "Mission \r\n D text\r new parent";
+        //throw new NotImplementedException();
+    }
 
+    public Texture2D GetPhotoTexture()
+    {
+        Texture2D t = null;
+        for (int i = 0; i < missions.Count; ++i)
+        {
+            t = missions[i].GetPhotoTexture();
+            if (t)
+            { break; }
+        }
+        return t;
+        //return null;
+        //throw new NotImplementedException();
+    }
     #region Editor
 #if UNITY_EDITOR
     //#if UnityEditor
@@ -175,40 +208,7 @@ public class MissionObject
         missions.RemoveAt(i);
     }
 
-    internal string GetDescription()
-    {
-        string str = description;
-        if (description != "")
-        {
-            str += "\n";
-        }
-        for (int i = 0; i < missions.Count; ++i)
-        {
-            string s = missions[i].GetDescription();
-            //str += s;
-            if (s != "")
-            {
-                str += " - " + s + "\n";
-            }
-        }
-        return str;
-        // return "Mission \r\n D text\r new parent";
-        //throw new NotImplementedException();
-    }
-
-    internal Texture2D GetPhotoTexture()
-    {
-        Texture2D t = null;
-        for (int i = 0; i < missions.Count; ++i)
-        {
-            t = missions[i].GetPhotoTexture();
-            if (t)
-            { break; }
-        }
-        return t;
-        //return null;
-        //throw new NotImplementedException();
-    }
+   
 #endif
     #endregion
 }
