@@ -112,7 +112,7 @@ public class GameLogic : MonoBehaviour
     {
        // Events.STOPBGM
         GameValue.s_CurrentSceneName = s_MenuScene;
-        bool isShowLoading = true;
+        bool isShowLoading = false;
         if (evt.data != null)
         {
             bool.TryParse(evt.data.ToString(), out isShowLoading);
@@ -143,7 +143,7 @@ public class GameLogic : MonoBehaviour
             Application.LoadLevel(s_LoadingScene);
         else
         {
-            Application.LoadLevel(MissionManager.CurrentChapterSceneName);
+            Application.LoadLevel(GameValue.s_CurrentSceneName);
         }
 
     }

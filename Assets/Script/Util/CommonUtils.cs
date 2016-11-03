@@ -140,6 +140,15 @@ public class CommonUtils
         }
     }
 
+    public static void SetChildImageSliderValue(RectTransform parent, string child, float value)
+    {
+        Image m = GetChildComponent<Image>(parent, child);
+        if (m)
+        {
+            m.fillAmount = value;
+        }
+    }
+
     public static void SetChildButtonActive(RectTransform parent, string child, bool b)
     {
         if (parent == null || string.IsNullOrEmpty(child))

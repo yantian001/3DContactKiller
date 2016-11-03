@@ -118,7 +118,7 @@ public class MenuController : MonoBehaviour
         MissionManager.CurrentChapterSceneName = _currentChapter.SceneName;
         //GameValue.s_currentObjective = currentObjective;
         //GameValue.mapId = currentScene + 1;
-        //GameValue.s_CurrentSceneName = ld.sceneName;
+        GameValue.s_CurrentSceneName = _currentChapter.SceneName;
         ////GameValue.s_IsRandomObjective = isLoopTask;
         //GameValue.s_LeveData = ld;
         LeanTween.dispatchEvent((int)Events.GAMESTART);

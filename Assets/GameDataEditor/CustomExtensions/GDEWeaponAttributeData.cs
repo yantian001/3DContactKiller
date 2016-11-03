@@ -84,9 +84,9 @@ namespace GameDataEditor
                 float ret = InitialValue;
                 if (_CurrentLevel > 0)
                 {
-                    if(LevelsInfo != null && LevelsInfo.Count > 0)
+                    if (LevelsInfo != null && LevelsInfo.Count > 0)
                     {
-                        for(int i=0;i<_CurrentLevel && i< LevelsInfo.Count;i++)
+                        for (int i = 0; i < _CurrentLevel && i < LevelsInfo.Count; i++)
                         {
                             ret += LevelsInfo[i].IncreaseValue;
                         }
@@ -109,16 +109,16 @@ namespace GameDataEditor
             get
             {
                 float ret = InitialValue;
-                if(CanUpgrade && LevelsInfo != null)
+                if (CanUpgrade && LevelsInfo != null)
                 {
-                    for(int i=0;i<LevelsInfo.Count;i++)
+                    for (int i = 0; i < LevelsInfo.Count; i++)
                     {
                         ret += LevelsInfo[i].IncreaseValue;
                     }
                 }
                 return ret;
             }
-            
+
         }
 
         private static string NameKey = "Name";
@@ -299,14 +299,14 @@ namespace GameDataEditor
             LoadFromDict(_key, dict);
         }
 
-        #region
+        #region Custom Method
         /// <summary>
         /// 获取当前升级花费
         /// </summary>
         /// <returns></returns>
         public int GetUpgradeCost()
         {
-            if(IsMaxLevel())
+            if (IsMaxLevel())
             {
                 return -1;
             }
@@ -323,6 +323,22 @@ namespace GameDataEditor
         public bool IsMaxLevel()
         {
             return CurrentLevel >= LevelsInfo.Count;
+        }
+
+        /// <summary>
+        /// 获取下一级的增长值
+        /// </summary>
+        /// <returns></returns>
+        public float GetNextIncreaseValue()
+        {
+            if (IsMaxLevel())
+            {
+                return -1;
+            }
+            else
+            {
+                return LevelsInfo[CurrentLevel].IncreaseValue;
+            }
         }
         #endregion
     }

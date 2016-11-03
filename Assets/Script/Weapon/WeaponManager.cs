@@ -5,6 +5,16 @@ using System.Collections.Generic;
 public class WeaponManager : MonoBehaviour
 {
 
+
+    #region Staic Variable
+
+    public static float MaxPower = 400;
+    public static float MaxStability = 100;
+    public static float MaxZoom = 20;
+    public static float MaxCapacity = 10;
+
+    #endregion
+
     #region 单例
     private static WeaponManager _instance;
     public static WeaponManager Instance
