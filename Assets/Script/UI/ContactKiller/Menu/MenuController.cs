@@ -214,16 +214,29 @@ public class MenuController : MonoBehaviour
         }
 
         int total = _currentChapter.GetTotalByType(_levelType);
+        _currentLevel = Mathf.Min(_currentLevel, total - 1);
+        int totalUnlocked = MissionManager.GetUnlockedTotalByType(_selectChapter, _levelType);
         txtLevelIndex.text = string.Format("{0}/{1}", _currentLevel + 1, total);
-        if (_currentLevel == 0)
+        if (_currentLevel == 0 || _currentLevel == totalUnlocked)
         {
-            btnPreLevel.interactable = false;
-            btnNextLevel.interactable = true;
-        }
-        else if (_currentLevel == total - 1)
-        {
-            btnNextLevel.interactable = false;
-            btnPreLevel.interactable = true;
+            if (_currentLevel <= 0)
+            {
+                btnPreLevel.interactable = false;
+                // btnNextLevel.interactable = true;
+            }
+            else
+            {
+                btnPreLevel.interactable = true;
+            }
+            if (_currentLevel >= totalUnlocked)
+            {
+                btnNextLevel.interactable = false;
+                //btnPreLevel.interactable = true;
+            }
+            else
+            {
+                btnNextLevel.interactable = true;
+            }
         }
         else
         {

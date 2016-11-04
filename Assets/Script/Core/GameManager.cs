@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Game Finish :" + v.ToString());
         if (v)
         {
+            MissionManager.CompelteCurrentLevel();
            // Player.CurrentUser.SceneLevelComplete(GameValue.s_LeveData.Id, GameValue.s_LevelType);
         }
         LeanTween.delayedCall(2f, () =>

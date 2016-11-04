@@ -97,11 +97,8 @@ public class Gun : MonoBehaviour
 
         if (NormalCamera)
             fovTemp = NormalCamera.GetComponent<Camera>().fieldOfView;
-        if (!this.InfinityAmmo)
-        {
-            //AmmoPack = Player.CurrentUser.GetMaterialCount(id);
-        }
 
+        Clip = ClipSize;
         if (AmmoIn > 1)
             AmmoIn = 1;
     }
@@ -298,29 +295,7 @@ public class Gun : MonoBehaviour
                     if (GetComponent<Animation>()[ReloadPose].normalizedTime > 0.8f)
                     {
                         gunState = 0;
-
-                        if (InfinityAmmo)
-                        {
-                            Clip = ClipSize;
-                        }
-                        else
-                        {
-                            if (AmmoPack >= ClipSize)
-                            {
-                                Clip = ClipSize;
-                                AmmoPack -= ClipSize;
-                            }
-                            else
-                            {
-                                if (AmmoPack > 0)
-                                {
-                                    Clip = AmmoPack;
-                                    AmmoPack = 0;
-                                }
-
-                            }
-                        }
-
+                        Clip = ClipSize;
                         if (Clip > 0)
                         {
                             GetComponent<Animation>().CrossFade(IdlePose);

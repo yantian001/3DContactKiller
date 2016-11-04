@@ -16,6 +16,7 @@ public class Shop : MonoBehaviour
     public Button upgradeBtn;
     public Text txtUpgradePrice;
     public Button eqBtn;
+    public GameObject markCrt;
 
 
     public AudioClip succedAudio;
@@ -173,11 +174,14 @@ public class Shop : MonoBehaviour
             if (!weapon.Equipped)
             {
                 ChangeButtonDisplay(2);
+                markCrt.SetActive(false);
             }
             else
             {
                 //if()
                 ChangeButtonDisplay(0);
+                markCrt.SetActive(true);
+
             }
         }
 
@@ -347,6 +351,7 @@ public class Shop : MonoBehaviour
         {
             if (weapon.Equipped)
             {
+                //markCrt.SetActive(true);
                 GDEWeaponAttributeData currentAttrdata = weapon.GetAttributeById(currentAttr);
                 if (currentAttrdata != null)
                 {
@@ -366,6 +371,10 @@ public class Shop : MonoBehaviour
                     }
                 }
             }
+            //else
+            //{
+            //    markCrt.SetActive(false);
+            //}
 
         }
 

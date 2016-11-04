@@ -123,6 +123,7 @@ public class GameFinish : MonoBehaviour
         {
             success.gameObject.SetActive(false);
             fail.gameObject.SetActive(true);
+            CommonUtils.SetChildText(fail, "MissionDes", MissionManager.CurrentMission.GetDescription());
             if (record.FinishType == GameFinishType.Failed)
             {
                 CommonUtils.SetChildActive(fail, "Lost", true);

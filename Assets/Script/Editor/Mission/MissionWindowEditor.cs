@@ -15,7 +15,7 @@ public class MissionWindowEditor : EditorWindow
     protected static float spaceY = 20;
     protected static float width = 150;
     protected static float height = 18;
-    protected static float missionHeight = 300;
+    protected static float missionHeight = 350;
 
     public static void Init()
     {

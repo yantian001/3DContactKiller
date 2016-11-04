@@ -29,11 +29,13 @@ public class MissionManager : MonoBehaviour
         }
     }
 
+    #region Static Variable
     public static MissionObject CurrentMission;
     public static int CurrentChapter = -1;
     public static int CurrentLevel = -1;
     public static LevelType CurrentLevelType = LevelType.None;
     public static string CurrentChapterSceneName = "";
+    #endregion
 
     private int _lastPlayedChapter = -1;
     public int LastPlayedChapter
@@ -266,5 +268,79 @@ public class MissionManager : MonoBehaviour
     }
     #endregion
 
+
+    #region Static Method
+
+    static public void CompelteCurrentLevel()
+    {
+        if (CurrentChapter > -1)
+        {
+            ChapterResult cr = GetResultByIndex(CurrentChapter);
+            if (cr != null)
+            {
+                if (CurrentLevelType == LevelType.MainTask)
+                {
+                    if (CurrentLevel + 1 > cr.primaryLevel)
+                    {
+                        cr.primaryLevel = CurrentLevel + 1;
+                        Chapter cp = GetChapterByIndex(CurrentChapter);
+                        if (cr.primaryLevel >= cp.CommonMission.Count - 1)
+                        {
+                            UnlockChapter(CurrentChapter + 1);
+                        }
+                    }
+                }
+                else if (CurrentLevelType == LevelType.CommonTask)
+                {
+
+                }
+                else if (CurrentLevelType == LevelType.DailyTask)
+                {
+
+                }
+                else if (CurrentLevelType == LevelType.BossTask)
+                {
+
+                }
+            }
+            Instance.SaveResult2File();
+        }
+    }
+
+    static public void UnlockChapter(int i)
+    {
+        ChapterResult cr = GetResultByIndex(i);
+        if (cr != null && cr.unlocked == false)
+        {
+            cr.unlocked = true;
+            Instance.SaveResult2File();
+        }
+    }
+
+    static public int GetUnlockedTotalByType(int chapter, LevelType type)
+    {
+        int total = 0;
+        ChapterResult cr = GetResultByIndex(chapter);
+        switch (type)
+        {
+            case LevelType.MainTask:
+                total = cr.primaryLevel;
+                break;
+            case LevelType.CommonTask:
+                total = cr.commonLevel;
+                break;
+            case LevelType.DailyTask:
+                total = cr.dailyLevel;
+                break;
+            case LevelType.BossTask:
+                total = cr.boosLevel;
+                break;
+            default:
+                break;
+        }
+        return total;
+    }
+
+    #endregion
 
 }
