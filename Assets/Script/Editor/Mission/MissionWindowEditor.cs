@@ -57,10 +57,10 @@ public class MissionWindowEditor : EditorWindow
         startY += spaceY + 10;
         cont = new GUIContent("背景图：", "Menu上显示的背景图");
         EditorGUI.LabelField(new Rect(startX, startY, width, height), cont);
-        chapterList[selectId].BgTexture = (Texture2D)EditorGUI.ObjectField(new Rect(startX + 90, startY, width, height), chapterList[selectId].BgTexture, typeof(Texture2D),false);
+        chapterList[selectId].BgTexture = (Texture2D)EditorGUI.ObjectField(new Rect(startX + 90, startY, width, height), chapterList[selectId].BgTexture, typeof(Texture2D), false);
 
         cont = new GUIContent("缩略图：", "Menu上未解锁时显示的缩略图");
-        EditorGUI.LabelField(new Rect(startX+295, startY, width, height), cont);
+        EditorGUI.LabelField(new Rect(startX + 295, startY, width, height), cont);
         chapterList[selectId].ThumbTexture = (Texture2D)EditorGUI.ObjectField(new Rect(startX + 380, startY, width, height), chapterList[selectId].ThumbTexture, typeof(Texture2D), false);
 
         startY += spaceY + 10;
@@ -147,6 +147,11 @@ public class MissionWindowEditor : EditorWindow
                                 missionList[i] = missionList[i + 1];
                                 missionList[i + 1] = o;
                             }
+                        },
+                        () =>
+                        {
+                            //copy
+                            missionList.Insert(i + 1, missionList[i].Clone());
                         });
                 }
                 GUI.EndScrollView();
@@ -160,7 +165,7 @@ public class MissionWindowEditor : EditorWindow
     protected MissionType newMissionType = MissionType.None;
     protected Rect missionConditionVisableRect, missionConditionContentRect;
     Vector2 mcScorllPosition;
-    Vector2 DrawMission(Vector2 v2, MissionObject m, int index, Action deleteAction, Action upAction, Action downAction)
+    Vector2 DrawMission(Vector2 v2, MissionObject m, int index, Action deleteAction, Action upAction, Action downAction, Action copyAction)
     {
         float tempX = v2.x + 10;
         float tempY = v2.y;
@@ -177,6 +182,12 @@ public class MissionWindowEditor : EditorWindow
             Debug.Log("↓ Click");
             downAction();
         }
+        if (GUI.Button(new Rect(window.position.width - width + 75, tempY + 2, 20, 17), new GUIContent("C", "在当前任务后复制当前任务")))
+        {
+            Debug.Log("Copy");
+            if (copyAction != null)
+                copyAction.Invoke();
+        }
         //v2.y += spaceY + 10;
         tempY += spaceY;
         if (m.minimise)
@@ -186,7 +197,7 @@ public class MissionWindowEditor : EditorWindow
             GUI.Label(new Rect(tempX, tempY, 60, height), new GUIContent("标题:", "任务的标题"));
             m.title = EditorGUI.TextField(new Rect(tempX + 100, tempY, width, height), m.title);
             GUI.Label(new Rect(tempX + 300, tempY, 60, height), new GUIContent("描述:", "任务的描述"));
-            m.description = EditorGUI.TextArea(new Rect(tempX + 340, tempY, width*2, height *3), m.description);
+            m.description = EditorGUI.TextArea(new Rect(tempX + 340, tempY, width * 2, height * 3), m.description);
             tempY += spaceY;
             GUI.Label(new Rect(tempX, tempY, 60, height), "时间:");
             m.totalTime = EditorGUI.FloatField(new Rect(tempX + 100, tempY, width, height), m.totalTime);

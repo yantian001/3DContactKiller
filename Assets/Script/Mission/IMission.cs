@@ -298,6 +298,25 @@ public class IMission
         // return "";
     }
 
+    public IMission Clone()
+    {
+        //throw new NotImplementedException();
+        IMission m = new IMission();
+        m.currentCount = this.currentCount;
+        m.currentScores = this.currentScores;
+        m.IsLimitTarget = this.IsLimitTarget;
+        m.IsTimeLimit = this.IsTimeLimit;
+        m.LimitTime = this.LimitTime;
+        m.NeedHeadShot = this.NeedHeadShot;
+        m.Target = this.Target;
+        m.TargetCount = this.TargetCount;
+        m.TargetScores = this.TargetScores;
+        m.timeLeft = this.timeLeft;
+        m._statu = this._statu;
+        m._type = this._type;
+        return m;
+    }
+
     public string GetTimeString()
     {
         int m = (int)timeLeft / 60;

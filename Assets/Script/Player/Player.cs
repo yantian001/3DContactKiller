@@ -166,19 +166,19 @@ public class Player : MonoBehaviour
 
     void Init()
     {
-        sceneResults = new List<SceneResult>();
-        //if (sceneResults == null) {
-        string jsonStr = PlayerPrefs.GetString("sceneresult", "");
-        if (string.IsNullOrEmpty(jsonStr))
-        {
-            sceneResults = new List<SceneResult>();
-        }
-        else
-        {
-            //				sceneResults = (List<SceneResult>)Json.Deserialize(jsonStr);
-            sceneResults = DeserializeSceneResult(jsonStr);
-        }
-        //
+        //sceneResults = new List<SceneResult>();
+        ////if (sceneResults == null) {
+        //string jsonStr = PlayerPrefs.GetString("sceneresult", "");
+        //if (string.IsNullOrEmpty(jsonStr))
+        //{
+        //    sceneResults = new List<SceneResult>();
+        //}
+        //else
+        //{
+        //    //				sceneResults = (List<SceneResult>)Json.Deserialize(jsonStr);
+        //    sceneResults = DeserializeSceneResult(jsonStr);
+        //}
+        ////
 
         if (!PlayerPrefs.HasKey("money"))
         {

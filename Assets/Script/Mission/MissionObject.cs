@@ -208,6 +208,25 @@ public class MissionObject
         missions.RemoveAt(i);
     }
 
+    public MissionObject Clone()
+    {
+        MissionObject m = new MissionObject();
+        m.capacityRequired = this.capacityRequired;
+        m.description = this.description;
+        m.finished = this.finished;
+        m.maxZoomRequired = this.maxZoomRequired;
+        m.minimise = this.minimise;
+        m.powerRequired = this.powerRequired;
+        m.reward = this.reward;
+        m.title = this.title;
+        m.totalTime = this.totalTime;
+        m._statu = this._statu;
+        for (int i = 0; i < this.missions.Count;i++)
+        {
+            m.missions.Add(this.missions[i].Clone());
+        }
+        return m;
+    }
    
 #endif
     #endregion

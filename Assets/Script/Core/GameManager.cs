@@ -41,13 +41,19 @@ public class GameManager : MonoBehaviour
         // LeanTween.addListener((int)Events.ENEMYCLEARED, OnEnemyCleared);
         LeanTween.addListener((int)Events.GAMEPAUSE, OnPause);
         LeanTween.addListener((int)Events.TOTURIALED, OnToturialed);
+        LeanTween.addListener((int)Events.TIMEUP, OnTimeUp);
         // LeanTween.addListener((int)Events.PREVIEWSTART, OnPreviewStart);
         Time.timeScale = 1;
         BehaviorDesigner.Runtime.GlobalVariables.Instance.SetVariableValue("Fired", false);
 
     }
 
-    
+    private void OnTimeUp(LTEvent obj)
+    {
+        //throw new NotImplementedException();
+        OnGameFinish(false);
+    }
+
     public void Start()
     {
         record = new GameRecords();

@@ -46,6 +46,7 @@ public class Prediction : MonoBehaviour
         // Debug.Log("Aim at " + t.name);
         currentT = t;
         lastTimeStamb = Time.time;
+        parent.gameObject.SetActive(true);
     }
 
 
@@ -72,9 +73,10 @@ public class Prediction : MonoBehaviour
                 parent.gameObject.SetActive(true);
                 if (pto.marked)
                 {
-                    
+
                     txtName.gameObject.SetActive(true);
-                    txtName.text = lastT.name;
+                    var a = lastT.GetComponent<Animal>();
+                    txtName.text = a.Name;
                     CommonUtils.SetChildActive(parent, "Image", false);
                 }
                 else
@@ -83,10 +85,10 @@ public class Prediction : MonoBehaviour
                     CommonUtils.SetChildActive(parent, "Image", true);
                     currentTimeCount += Time.deltaTime;
                     float fillAmout = currentTimeCount / timeCount;
-                    if(fillAmout >= 1) { pto.marked = true; }
+                    if (fillAmout >= 1) { pto.marked = true; }
                     slider.fillAmount = fillAmout;
                 }
-                
+
             }
         }
     }

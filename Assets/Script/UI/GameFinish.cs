@@ -109,6 +109,7 @@ public class GameFinish : MonoBehaviour
                     Text txtTotal = CommonUtils.GetChildComponent<Text>(success, "Total/Value");
                     StartCoroutine(DynamicDisplayMoeny(txtTotal, total, () =>
                     {
+                        LeanTween.dispatchEvent((int)Events.MONEYUSED, -total);
                         //按钮启用
                         CommonUtils.SetChildButtonActive(success, "ButtonContinue", true);
                     }));

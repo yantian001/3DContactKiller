@@ -168,6 +168,7 @@ public class Shop : MonoBehaviour
         {
             ChangeButtonDisplay(1);
             txtBuyPrice.text = weapon.Price.ToString();
+            markCrt.SetActive(false);
         }
         else
         {
