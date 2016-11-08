@@ -257,7 +257,7 @@ public class MenuController : MonoBehaviour
             Texture2D txture2d = m.GetPhotoTexture();
             if (txture2d)
             {
-                txtDescription.rectTransform.sizeDelta = new Vector2(165, txtDescription.rectTransform.sizeDelta.y);
+                txtDescription.rectTransform.sizeDelta = new Vector2(180, txtDescription.rectTransform.sizeDelta.y);
                 imgPhoto.texture = txture2d;
                 imgPhoto.transform.parent.gameObject.SetActive(true);
             }
