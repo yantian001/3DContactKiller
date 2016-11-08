@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,22 +35,24 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         _instance = this;
-
+        ChangeGameStatu(GameStatu.Init);
         //监听死亡
         LeanTween.addListener((int)Events.ENEMYDIE, OnEnemyDie);
         // LeanTween.addListener((int)Events.ENEMYCLEARED, OnEnemyCleared);
         LeanTween.addListener((int)Events.GAMEPAUSE, OnPause);
+        LeanTween.addListener((int)Events.TOTURIALED, OnToturialed);
         // LeanTween.addListener((int)Events.PREVIEWSTART, OnPreviewStart);
         Time.timeScale = 1;
         BehaviorDesigner.Runtime.GlobalVariables.Instance.SetVariableValue("Fired", false);
 
     }
 
+    
     public void Start()
     {
         record = new GameRecords();
         record.MissionReward = MissionManager.CurrentMission.reward;
-        ChangeGameStatu(GameStatu.InGame);
+       // ChangeGameStatu(GameStatu.InGame);
     }
 
     private void OnPreviewStart(LTEvent obj)
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
         LeanTween.removeListener((int)Events.ENEMYDIE, OnEnemyDie);
         //LeanTween.removeListener((int)Events.ENEMYCLEARED, OnEnemyCleared);
         LeanTween.removeListener((int)Events.GAMEPAUSE, OnPause);
+        LeanTween.removeListener((int)Events.TOTURIALED, OnToturialed);
         //LeanTween.removeListener((int)Events.PREVIEWSTART, OnPreviewStart);
         _instance = null;
     }
@@ -214,4 +218,10 @@ public class GameManager : MonoBehaviour
             record.HeadShotCount += 1;
         }
     }
+    private void OnToturialed(LTEvent obj)
+    {
+        //throw new NotImplementedException();
+        ChangeGameStatu(GameStatu.InGame);
+    }
+
 }

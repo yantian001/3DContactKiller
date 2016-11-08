@@ -74,6 +74,8 @@ public class FPSInputMobileController : MonoBehaviour
 
     void UpdateFOV()
     {
+        if (GameValue.staus != GameStatu.InGame)
+            return;
         if (Input.GetAxis("Mouse ScrollWheel") != 0)
         {
             //Debug.Log(Input.GetAxis("Mouse ScrollWheel"));

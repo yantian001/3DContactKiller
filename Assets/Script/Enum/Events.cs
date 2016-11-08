@@ -129,4 +129,5 @@
     MENULOADED,
     AimedEnemy,
     RECOMMENDCONTINUE,
+    TOTURIALED,
 }

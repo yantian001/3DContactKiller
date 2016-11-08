@@ -1,11 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class IngameControl : MonoBehaviour
 {
 
     public GameObject Screen;
     public GameObject btnHoldBreath;
+
+    public void Awake()
+    {
+        LeanTween.addListener((int)Events.TOTURIALED, OnTuto);
+        gameObject.SetActive(false);
+    }
+
+    private void OnTuto(LTEvent obj)
+    {
+        // throw new NotImplementedException();
+        gameObject.SetActive(true);
+    }
+
+    public void OnDestroy()
+    {
+        LeanTween.removeListener((int)Events.TOTURIALED, OnTuto);
+    }
+
+
+
 
     // Use this for initialization
     void Start()

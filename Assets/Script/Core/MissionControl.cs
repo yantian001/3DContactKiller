@@ -63,7 +63,11 @@ public class MissionControl : MonoBehaviour
         while (timeLeft > 0)
         {
             yield return new WaitForSeconds(1f);
-            timeLeft -= 1;
+            if (GameValue.staus == GameStatu.InGame)
+            {
+               
+                timeLeft -= 1;
+            }
         }
 
         OnTimeOut();

@@ -536,7 +536,7 @@ public class Gun : MonoBehaviour
 
     void OnGUI()
     {
-        if (!Active)
+        if (!Active || !(GameValue.staus == GameStatu.InGame))
             return;
         GUI.depth = 1;
         if (NormalCamera)
