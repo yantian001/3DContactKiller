@@ -49,7 +49,7 @@ public class DamageManager : MonoBehaviour
 
     void Update()
     {
-        if(!injured)
+        if (!injured)
         {
             if (IsInjured())
             {
@@ -64,7 +64,7 @@ public class DamageManager : MonoBehaviour
             //showHitTips = true;
             //tipStartTime = Time.time;
         }
-        
+
     }
 
     public void ApplyDamage(int damage, Vector3 velosity, float distance)
@@ -159,7 +159,7 @@ public class DamageManager : MonoBehaviour
         EnemyDeadInfo edi = new EnemyDeadInfo();
         edi.score = Score;
         edi.transform = this.transform;
-        edi.headShot = suffix == 2;
+        edi.headShot = hpos == HitPosition.HEAD;
         edi.hitPos = hpos;
         edi.animal = this.GetComponent<Animal>();
         LeanTween.dispatchEvent((int)Events.ENEMYDIE, edi);

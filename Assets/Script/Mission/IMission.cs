@@ -171,7 +171,18 @@ public class IMission
             }
             else if (_type == MissionType.Time)
             {
+                TimeUpdate();
+            }
+        }
+    }
 
+    void TimeUpdate()
+    {
+        if (IsMissionRunning())
+        {
+            if (timeLeft <= 0)
+            {
+                _statu = MissionStatu.Failed;
             }
         }
     }
@@ -292,7 +303,7 @@ public class IMission
         }
         else if (_type == MissionType.Time)
         {
-            return "Kill more than 10 enemy with 10s and 10000 points";
+            return "Kill targets in " + LimitTime.ToString() + "s";
         }
         return str;
         // return "";

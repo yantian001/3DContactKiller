@@ -22,7 +22,7 @@ public class UIMission : MonoBehaviour
     void Start()
     {
         //mission = EditorDBManager.
-        mission = MissionManager.Instance.lstChapters[0].CommonMission[0];
+        mission = MissionManager.CurrentMission;
         DisplayMission(mission.missions);
     }
 

@@ -84,14 +84,25 @@ public class MissionObject
             for (int i = 0; i < missions.Count; i++)
             {
                 missions[i].OnUpdate(delta);
-                allSubCompleted = allSubCompleted && missions[i].IsMissionComplete();
+
+                if (missions[i]._type != MissionType.Time)
+                {
+                    allSubCompleted = allSubCompleted && missions[i].IsMissionComplete();
+                }
                 if (missions[i].IsMissionFailed())
                 {
                     _statu = MissionStatu.Failed;
                 }
             }
             if (allSubCompleted)
+            {
+                for (int i = 0; i < missions.Count; i++)
+                {
+                    if (missions[i]._type == MissionType.Time)
+                        missions[i]._statu = MissionStatu.Completed;
+                }
                 _statu = MissionStatu.Completed;
+            }
         }
     }
     /// <summary>
@@ -172,6 +183,10 @@ public class MissionObject
         {
             nm.IsLimitTarget = true;
         }
+        if (type == MissionType.Time)
+        {
+            nm.IsTimeLimit = true;
+        }
         missions.Add(nm);
 
         //IMission newMission = null;
@@ -221,13 +236,13 @@ public class MissionObject
         m.title = this.title;
         m.totalTime = this.totalTime;
         m._statu = this._statu;
-        for (int i = 0; i < this.missions.Count;i++)
+        for (int i = 0; i < this.missions.Count; i++)
         {
             m.missions.Add(this.missions[i].Clone());
         }
         return m;
     }
-   
+
 #endif
     #endregion
 }

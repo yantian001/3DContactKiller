@@ -112,7 +112,7 @@ public class Gun : MonoBehaviour
         if (wd != null)
         {
             Power = wd.GetAttributeCurrentVal(0);
-            MaxZoom = wd.GetAttributeCurrentVal(1);
+            maxMulti = wd.GetAttributeCurrentVal(1);
             MouseStability = wd.GetAttributeCurrentVal(2);
             ClipSize = ConvertUtil.ToInt32(wd.GetAttributeCurrentVal(3));
             Infrared = wd.GetAttributeCurrentVal(4);

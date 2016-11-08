@@ -41,6 +41,11 @@ public class Prediction : MonoBehaviour
 
     }
 
+    public void OnDestroy()
+    {
+        PredictionTrajectory.ptEvent -= OnPrediction;
+    }
+
     void OnPrediction(Transform t)
     {
         // Debug.Log("Aim at " + t.name);

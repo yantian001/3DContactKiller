@@ -52,7 +52,6 @@ public class MissionItem : MonoBehaviour
                 RectTransform rtTime = CommonUtils.GetChildComponent<RectTransform>(rt, "Time");
                 if (rtLabel && rtTime)
                 {
-
                     rtTime.anchoredPosition = new Vector2(rtTime.anchoredPosition.x, -(rtLabel.sizeDelta.y - 2));
                 }
             }
