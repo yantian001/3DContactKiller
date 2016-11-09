@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public AudioClip successAC;
 
     public AudioClip failAC;
+    public GameObject pause;
 
     #region 单例模式
     private static GameManager _instance;
@@ -83,14 +84,17 @@ public class GameManager : MonoBehaviour
         if (gameStatu == GameStatu.InGame)
         {
             ChangeGameStatu(GameStatu.Paused);
+            pause.SetActive(true);
+            LeanTween.addListener((int)Events.GAMECONTINUE, OnContinue);
+            Time.timeScale = 0;
         }
-        LeanTween.addListener((int)Events.GAMECONTINUE, OnContinue);
-        Time.timeScale = 0;
+       
     }
 
     void OnContinue(LTEvent evt)
     {
         LeanTween.removeListener((int)Events.GAMECONTINUE, OnContinue);
+        pause.SetActive(false);
         ChangeGameStatu(GameStatu.InGame);
         Time.timeScale = 1;
     }
