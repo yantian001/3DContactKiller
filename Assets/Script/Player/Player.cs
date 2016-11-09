@@ -39,6 +39,7 @@ public class ChapterResult
     /// </summary>
     public int boosLevel = 0;
 
+
     public ChapterResult()
     {
     }
@@ -108,6 +109,8 @@ public class Player : MonoBehaviour
 {
 
     public int Money;
+
+    public AudioClip moneyChangedClip;
     /// <summary>
     /// 上次played的场景
     /// </summary>
@@ -395,6 +398,10 @@ public class Player : MonoBehaviour
     /// <param name="moneyUse"></param>
     public void UseMoney(int moneyUse)
     {
+        if(moneyChangedClip)
+        {
+            LeanAudio.play(moneyChangedClip);
+        }
         Money -= moneyUse;
         if (Money <= 0)
             Money = 0;

@@ -42,15 +42,26 @@ public class ButtonClick : MonoBehaviour
 
     void OnButtonClick()
     {
-        if(EventId != Events.NONE)
-        {
-            LeanTween.dispatchEvent((int)EventId);
-        }
         if (clickClip)
         {
             LeanAudio.play(clickClip);
+            Invoke("DispatchEvent", clickClip.length);
         }
+        else
+        {
+            DispatchEvent();
+        }
+       
+       
       //  Debug.Log("button Clicked");
+    }
+
+    void DispatchEvent()
+    {
+        if (EventId != Events.NONE)
+        {
+            LeanTween.dispatchEvent((int)EventId);
+        }
     }
 
     public void OnDisable()

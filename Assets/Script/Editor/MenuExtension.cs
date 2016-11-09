@@ -10,6 +10,7 @@ public class MenuExtension : EditorWindow
     {
         MissionWindowEditor.Init();
     }
+
     [MenuItem("FUG/Tools/Delete Joint")]
     private static void DeleteAllJoint()
     {
@@ -90,5 +91,16 @@ public class MenuExtension : EditorWindow
     private static void PrintResult()
     {
         Debug.Log(PlayerPrefs.GetString("cptRst", ""));
+    }
+
+    [MenuItem("FUG/Button/Set Audio")]
+    private static void SetClickAudio()
+    {
+        AudioClip ac = Resources.Load<AudioClip>("audio/fx_button1");
+        var buttons= GameObject.FindObjectsOfType<ButtonClick>();
+        foreach(ButtonClick b in buttons)
+        {
+            b.clickClip = ac;
+        }
     }
 }

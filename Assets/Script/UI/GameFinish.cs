@@ -11,7 +11,7 @@ public class GameFinish : MonoBehaviour
     public RectTransform screen;
 
     public float scaleInTime = 0.5f;
-
+    public AudioClip numberCliper;
     Vector3 localScale;
     Vector2 tempPosition;
 
@@ -59,6 +59,10 @@ public class GameFinish : MonoBehaviour
 
     IEnumerator DynamicDisplayMoeny(Text text, int to, System.Action onFinish, int from = 0, int time = 2)
     {
+        if (numberCliper)
+        {
+            LeanAudio.play(numberCliper);
+        }
         if (text != null)
         {
             int diff = to - from;
