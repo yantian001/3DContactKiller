@@ -130,4 +130,6 @@
     AimedEnemy,
     RECOMMENDCONTINUE,
     TOTURIALED,
+    COINADD,
+    WATCHVEDIO,
 }

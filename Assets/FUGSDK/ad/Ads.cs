@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using GoogleMobileAds.Api;
+using System;
 
 namespace FUGSDK
 {
@@ -32,7 +33,7 @@ namespace FUGSDK
             }
             private set
             {
-
+                _instance = value;
             }
         }
 
@@ -42,6 +43,11 @@ namespace FUGSDK
             {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
+                LeanTween.addListener((int)Events.GAMEFINISH, OnGameFinish);
+                LeanTween.addListener((int)Events.GAMEPAUSE, OnGamePause);
+                LeanTween.addListener((int)Events.MENULOADED, OnGameMenu);
+                LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
+                LeanTween.addListener((int)Events.WATCHVEDIO, OnWatchVedio);
             }
             else
             {
@@ -50,10 +56,12 @@ namespace FUGSDK
         }
 
 
+
         // Use this for initialization
         void Start()
         {
             ChartboostUtil.Instance.Initialize();
+            UnityAdsUtil.Instance.Initialize();
 #if UNITY_ANDROID
             GoogleAdsUtil.Instance.Initialize(gpBannerId, gpIntersititialId);
 #elif UNITY_IPHONE
@@ -106,7 +114,7 @@ namespace FUGSDK
         /// <returns></returns>
         public bool HasRewardVedio()
         {
-            return ChartboostUtil.Instance.HasGameOverVideo();
+            return ChartboostUtil.Instance.HasGameOverVideo() || UnityAdsUtil.Instance.HasRewardVedio();
         }
         /// <summary>
         /// 播放视频奖励广告，并在广告播放完后执行ev方法，
@@ -115,7 +123,14 @@ namespace FUGSDK
         /// <param name="ev"></param>
         public void ShowRewardVedio(RewardVedioClosedEvent ev)
         {
-            ChartboostUtil.Instance.ShowGameOverVideo(ev);
+
+            if(!ChartboostUtil.Instance.ShowGameOverVideo(ev))
+            {
+                if(!UnityAdsUtil.Instance.ShowRewardVedio(ev))
+                {
+                    ev(false);
+                }
+            }
         }
         #endregion
 
@@ -139,5 +154,51 @@ namespace FUGSDK
             ChartboostUtil.Instance.ShowMoreAppOnDefault();
         }
         #endregion
+
+        private void OnGameMore(LTEvent obj)
+        {
+            //  throw new NotImplementedException();
+            //this.ShowMoreAppOnDefault();
+            Ads.Instance.ShowMoreApp();
+            print("more");
+        }
+
+        private void OnGameMenu(LTEvent obj)
+        {
+            //throw new NotImplementedException();
+            //this.ShowInterstitialOnHomescreen();
+            //  Ads.Instance.ShowInterstitial();
+        }
+
+        private void OnGamePause(LTEvent obj)
+        {
+            //throw new NotImplementedException();
+            // this.ShowInterstitialOnDefault();
+            Ads.Instance.ShowInterstitial();
+        }
+
+        private void OnGameFinish(LTEvent obj)
+        {
+            //throw new NotImplementedException();
+            // this.ShowInterstitialOnDefault();
+            Ads.Instance.ShowInterstitial();
+        }
+
+        private void OnWatchVedio(LTEvent obj)
+        {
+            //throw new NotImplementedException();
+            var evt = obj.data as RewardVedioClosedEvent;
+            if (HasRewardVedio())
+            {
+                ShowRewardVedio(evt);
+            }
+            else
+            {
+                evt(false);
+            }
+        }
+
     }
+
+
 }

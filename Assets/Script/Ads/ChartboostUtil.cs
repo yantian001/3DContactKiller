@@ -36,10 +36,6 @@ public class ChartboostUtil : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
-            LeanTween.addListener((int)Events.GAMEFINISH, OnGameFinish);
-            LeanTween.addListener((int)Events.GAMEPAUSE, OnGamePause);
-            LeanTween.addListener((int)Events.MENULOADED, OnGameMenu);
-            LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
         }
         else
         {

@@ -158,17 +158,19 @@ namespace FUGSDK
         /// <summary>
         /// 显示游戏结束时的奖励视频广告
         /// </summary>
-        public void ShowGameOverVideo(RewardVedioClosedEvent ev)
+        public bool ShowGameOverVideo(RewardVedioClosedEvent ev)
         {
             rewardClosedEvent = ev;
             if (Chartboost.hasRewardedVideo(CBLocation.Default))
             {
                 Chartboost.showRewardedVideo(CBLocation.Default);
+                return true;
             }
             else
             {
                 Chartboost.cacheRewardedVideo(CBLocation.Default);
-                DoAfterVedio();
+               // DoAfterVedio();
+                return false;
             }
 
         }

@@ -49,6 +49,7 @@ public class GameLogic : MonoBehaviour
             LeanTween.addListener((int)Events.GAMEQUIT, OnGameQuit);
             LeanTween.addListener((int)Events.GAMERATE, OnGameRate);
             LeanTween.addListener((int)Events.SHOP, OnShop);
+           // LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
         }
         else
         {
