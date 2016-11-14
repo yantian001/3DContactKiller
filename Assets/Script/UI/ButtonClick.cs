@@ -10,17 +10,19 @@ public class ButtonClick : MonoBehaviour
 
     public AudioClip clickClip;
 
+    public bool ingoreTimeScale = false;
+
     Button btn;
 
     public void OnEnable()
     {
         btn = GetComponent<Button>();
-        if(btn)
+        if (btn)
         {
             btn.onClick.AddListener(OnButtonClick);
         }
-       
-       // StartCoroutine(CoroutineEffect());
+
+        // StartCoroutine(CoroutineEffect());
     }
 
 
@@ -45,15 +47,31 @@ public class ButtonClick : MonoBehaviour
         if (clickClip)
         {
             LeanAudio.play(clickClip);
-            Invoke("DispatchEvent", clickClip.length);
+            //Invoke("DispatchEvent", clickClip.length);
+            StartCoroutine(DispatchEventRoute(clickClip.length));
         }
         else
         {
             DispatchEvent();
         }
-       
-       
-      //  Debug.Log("button Clicked");
+
+
+        //  Debug.Log("button Clicked");
+    }
+
+    IEnumerator DispatchEventRoute(float wt)
+    {
+        if (!ingoreTimeScale)
+            yield return new WaitForSeconds(wt);
+        //else
+        //{
+        //    float timeStart = Time.timeSinceLevelLoad;
+        //    while (timeStart + wt > Time.timeSinceLevelLoad)
+        //    {
+
+        //    }
+        //}
+        DispatchEvent();
     }
 
     void DispatchEvent()
@@ -66,7 +84,7 @@ public class ButtonClick : MonoBehaviour
 
     public void OnDisable()
     {
-        if(btn)
+        if (btn)
         {
             btn.onClick.RemoveListener(OnButtonClick);
         }
