@@ -70,10 +70,12 @@ public class GameManager : MonoBehaviour
 
     public void OnDestroy()
     {
+        Time.timeScale = 1;
         LeanTween.removeListener((int)Events.ENEMYDIE, OnEnemyDie);
         //LeanTween.removeListener((int)Events.ENEMYCLEARED, OnEnemyCleared);
         LeanTween.removeListener((int)Events.GAMEPAUSE, OnPause);
         LeanTween.removeListener((int)Events.TOTURIALED, OnToturialed);
+        LeanTween.removeListener((int)Events.TIMEUP, OnTimeUp);
         //LeanTween.removeListener((int)Events.PREVIEWSTART, OnPreviewStart);
         _instance = null;
     }
