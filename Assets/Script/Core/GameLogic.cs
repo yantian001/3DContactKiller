@@ -49,12 +49,27 @@ public class GameLogic : MonoBehaviour
             LeanTween.addListener((int)Events.GAMEQUIT, OnGameQuit);
             LeanTween.addListener((int)Events.GAMERATE, OnGameRate);
             LeanTween.addListener((int)Events.SHOP, OnShop);
-           // LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
+            LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
+            LeanTween.addListener((int)Events.GAMEFINISH, OnGameFinish);
+            LeanTween.addListener((int)Events.GAMEPAUSE, OnGamePaused);
+            // LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnGamePaused(LTEvent obj)
+    {
+        // throw new NotImplementedException();
+        FUGSDK.Ads.Instance.ShowInterstitial();
+    }
+
+    private void OnGameFinish(LTEvent obj)
+    {
+        // throw new NotImplementedException();
+        FUGSDK.Ads.Instance.ShowInterstitial();
     }
 
     private void OnShop(LTEvent obj)
@@ -111,7 +126,7 @@ public class GameLogic : MonoBehaviour
 
     void OnGameMainMenu(LTEvent evt)
     {
-       // Events.STOPBGM
+        // Events.STOPBGM
         GameValue.s_CurrentSceneName = s_MenuScene;
         bool isShowLoading = false;
         if (evt.data != null)
@@ -198,7 +213,7 @@ public class GameLogic : MonoBehaviour
         if (FUGSDK.Ads.Instance.HasIntersititial())
         {
             FUGSDK.Ads.Instance.ShowInterstitial(OnInterstitialClosed);
-          
+
         }
         //else if (GoogleAdsUtil.Instance.HasInterstital())
         //{

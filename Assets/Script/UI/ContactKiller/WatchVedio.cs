@@ -47,8 +47,9 @@ public class WatchVedio : MonoBehaviour
     public void OnWatchClicked()
     {
         print("watch clicked!");
-        FUGSDK.RewardVedioClosedEvent evt = OnWatchCallBack;
-        LeanTween.dispatchEvent((int)Events.WATCHVEDIO, evt);
+        //FUGSDK.RewardVedioClosedEvent evt = OnWatchCallBack;
+        FUGSDK.Ads.Instance.ShowRewardVedio(OnWatchCallBack);
+        //LeanTween.dispatchEvent((int)Events.WATCHVEDIO, evt);
     }
 
     void OnWatchCallBack(bool b)

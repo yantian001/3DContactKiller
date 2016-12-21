@@ -1,20 +1,27 @@
 ﻿using UnityEngine;
 using GoogleMobileAds.Api;
-using System;
 
 namespace FUGSDK
 {
     public delegate void InterstitialClosedEvent();
     public delegate void RewardVedioClosedEvent(bool completed);
-
-
+    [System.Serializable]
+    public class AdsConfig
+    {
+        public string banner = "ca-app-pub-4204987182299137/3274919206";
+        public string interstitial = "ca-app-pub-4204987182299137/4751652407";
+        public string rewarded = "ca-app-pub-4204987182299137/6228385601";
+        public string native = "ca-app-pub-4204987182299137/5669982403";
+    }
 
     public class Ads : MonoBehaviour
     {
-        public string gpBannerId = "ca-app-pub-4204987182299137/5342806003";
-        public string gpIntersititialId = "ca-app-pub-4204987182299137/4167124006";
-        public string iosBannerId = "ca-app-pub-4204987182299137/2550790009";
-        public string iosIntersititialId = "ca-app-pub-4204987182299137/4027523206";
+        #region GooglePlay
+        public AdsConfig googlePlayConfig;
+        #endregion
+        #region iOS
+        public AdsConfig iOSConfig;
+        #endregion
         private static Ads _instance = null;
         public static Ads Instance
         {
@@ -33,9 +40,14 @@ namespace FUGSDK
             }
             private set
             {
-                _instance = value;
+
             }
         }
+
+        //public bool cacheBanner = false;
+        public bool cacheInterstitial = false;
+        public bool cacheRewarded = false;
+        public bool cacheNative = false;
 
         public void Awake()
         {
@@ -43,11 +55,6 @@ namespace FUGSDK
             {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-                LeanTween.addListener((int)Events.GAMEFINISH, OnGameFinish);
-                LeanTween.addListener((int)Events.GAMEPAUSE, OnGamePause);
-                LeanTween.addListener((int)Events.MENULOADED, OnGameMenu);
-                LeanTween.addListener((int)Events.GAMEMORE, OnGameMore);
-                LeanTween.addListener((int)Events.WATCHVEDIO, OnWatchVedio);
             }
             else
             {
@@ -56,18 +63,27 @@ namespace FUGSDK
         }
 
 
-
         // Use this for initialization
         void Start()
         {
             ChartboostUtil.Instance.Initialize();
-            UnityAdsUtil.Instance.Initialize();
 #if UNITY_ANDROID
-            GoogleAdsUtil.Instance.Initialize(gpBannerId, gpIntersititialId);
+            GoogleAdsUtil.Instance.Initialize(googlePlayConfig);
 #elif UNITY_IPHONE
-            GoogleAdsUtil.Instance.Initialize(iosBannerId, iosIntersititialId);
+            GoogleAdsUtil.Instance.Initialize(iOSConfig);
 #endif
-
+            if (cacheInterstitial)
+            {
+                GoogleAdsUtil.Instance.RequestInterstitial();
+            }
+            if (cacheRewarded)
+            {
+                GoogleAdsUtil.Instance.RequestRewardVedio();
+            }
+            if (cacheNative)
+            {
+                GoogleAdsUtil.Instance.ReqeustNativeExpressAd();
+            }
         }
         /// <summary>
         /// 在位置p上显示横幅广告
@@ -91,10 +107,10 @@ namespace FUGSDK
             {
                 GoogleAdsUtil.Instance.ShowInterstital(closeEvent);
             }
-            else if (ChartboostUtil.Instance.HasInterstitialOnDefault())
-            {
-                ChartboostUtil.Instance.ShowInterstitialOnDefault(closeEvent);
-            }
+            //else if (ChartboostUtil.Instance.HasInterstitialOnDefault())
+            //{
+            //    ChartboostUtil.Instance.ShowInterstitialOnDefault(closeEvent);
+            //}
         }
 
         /// <summary>
@@ -103,7 +119,7 @@ namespace FUGSDK
         /// <returns></returns>
         public bool HasIntersititial()
         {
-            return GoogleAdsUtil.Instance.HasInterstital() || ChartboostUtil.Instance.HasInterstitialOnDefault();
+            return GoogleAdsUtil.Instance.HasInterstital();// || ChartboostUtil.Instance.HasInterstitialOnDefault();
         }
         #endregion
 
@@ -114,7 +130,9 @@ namespace FUGSDK
         /// <returns></returns>
         public bool HasRewardVedio()
         {
-            return ChartboostUtil.Instance.HasGameOverVideo() || UnityAdsUtil.Instance.HasRewardVedio();
+            //return false;
+            return GoogleAdsUtil.Instance.HasRewardedVedio();//|| ChartboostUtil.Instance.HasGameOverVideo();
+            // return ChartboostUtil.Instance.HasGameOverVideo();
         }
         /// <summary>
         /// 播放视频奖励广告，并在广告播放完后执行ev方法，
@@ -123,14 +141,14 @@ namespace FUGSDK
         /// <param name="ev"></param>
         public void ShowRewardVedio(RewardVedioClosedEvent ev)
         {
-
-            if(!ChartboostUtil.Instance.ShowGameOverVideo(ev))
+            if (!GoogleAdsUtil.Instance.ShowRewardVedio(ev))
             {
-                if(!UnityAdsUtil.Instance.ShowRewardVedio(ev))
-                {
-                    ev(false);
-                }
+                //if (!ChartboostUtil.Instance.ShowGameOverVideo(ev))
+                //{
+                ev(false);
+                //}
             }
+
         }
         #endregion
 
@@ -142,6 +160,7 @@ namespace FUGSDK
         /// <returns></returns>
         public bool HasMoreApp()
         {
+            //return false;
             return ChartboostUtil.Instance.HasMoreAppOnDefault();
         }
 
@@ -151,54 +170,13 @@ namespace FUGSDK
         /// </summary>
         public void ShowMoreApp()
         {
-            ChartboostUtil.Instance.ShowMoreAppOnDefault();
+            if (HasMoreApp())
+                ChartboostUtil.Instance.ShowMoreAppOnDefault();
+#if UNITY_ANDROID
+            else
+                ShowInterstitial();
+#endif
         }
         #endregion
-
-        private void OnGameMore(LTEvent obj)
-        {
-            //  throw new NotImplementedException();
-            //this.ShowMoreAppOnDefault();
-            Ads.Instance.ShowMoreApp();
-            print("more");
-        }
-
-        private void OnGameMenu(LTEvent obj)
-        {
-            //throw new NotImplementedException();
-            //this.ShowInterstitialOnHomescreen();
-            //  Ads.Instance.ShowInterstitial();
-        }
-
-        private void OnGamePause(LTEvent obj)
-        {
-            //throw new NotImplementedException();
-            // this.ShowInterstitialOnDefault();
-            Ads.Instance.ShowInterstitial();
-        }
-
-        private void OnGameFinish(LTEvent obj)
-        {
-            //throw new NotImplementedException();
-            // this.ShowInterstitialOnDefault();
-            Ads.Instance.ShowInterstitial();
-        }
-
-        private void OnWatchVedio(LTEvent obj)
-        {
-            //throw new NotImplementedException();
-            var evt = obj.data as RewardVedioClosedEvent;
-            if (HasRewardVedio())
-            {
-                ShowRewardVedio(evt);
-            }
-            else
-            {
-                evt(false);
-            }
-        }
-
     }
-
-
 }

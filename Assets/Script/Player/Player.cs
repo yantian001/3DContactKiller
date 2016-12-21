@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using GameDataEditor;
-
-
+using System;
+using Random = UnityEngine.Random;
 public class ChapterResult
 {
     public int Id;
@@ -398,16 +398,24 @@ public class Player : MonoBehaviour
     /// <param name="moneyUse"></param>
     public void UseMoney(int moneyUse)
     {
-        if(moneyChangedClip)
-        {
-            LeanAudio.play(moneyChangedClip);
-        }
+
         Money -= moneyUse;
         if (Money <= 0)
             Money = 0;
         PlayerPrefs.SetInt("money", Money);
         PlayerPrefs.Save();
         LeanTween.dispatchEvent((int)Events.MONEYCHANGED);
+        try
+        {
+            if (moneyChangedClip)
+            {
+                LeanAudio.play(moneyChangedClip);
+            }
+        }
+        catch (Exception)
+        {
+
+        }
     }
     /// <summary>
     /// 判断金币是否足够
