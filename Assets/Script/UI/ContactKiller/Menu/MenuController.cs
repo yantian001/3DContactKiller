@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
@@ -27,6 +28,10 @@ public class MenuController : MonoBehaviour
     public RawImage Thumb;
 
     public Color unArriveTextColor;
+
+    
+
+    public RectTransform LoadingT;
     #endregion
 
     #region Private Variable
@@ -121,9 +126,37 @@ public class MenuController : MonoBehaviour
         GameValue.s_CurrentSceneName = _currentChapter.SceneName;
         ////GameValue.s_IsRandomObjective = isLoopTask;
         //GameValue.s_LeveData = ld;
-        LeanTween.dispatchEvent((int)Events.GAMESTART);
+        //LeanTween.dispatchEvent((int)Events.GAMESTART);
+        StartCoroutine(LoadScene(GameValue.s_CurrentSceneName));
+        if(LoadingT)
+        {
+            LoadingT.anchoredPosition = new Vector2(0, 0);
+        }
     }
 
+    AsyncOperation async = null;
+    IEnumerator LoadScene(string sceneName)
+    {
+       // FUGSDK.Ads.Instance.HideBanner();
+        async = SceneManager.LoadSceneAsync(sceneName);
+        async.allowSceneActivation = false;
+        while (async.progress < 0.9f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        CommonUtils.SetChildActive(LoadingT, "Background/Loading", false);
+        CommonUtils.SetChildActive(LoadingT, "Background/Tap", true);
+    }
+
+
+    public void OnTapToContinue()
+    {
+        if (async != null && async.progress >= 0.9f)
+        {
+            async.allowSceneActivation = true;
+        }
+    }
 
     #endregion
 
